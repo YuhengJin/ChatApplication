@@ -15,15 +15,15 @@ public class User {
 	//Variables locales
 	private boolean connected;
 	private String pseudo; 
-	private Server server;
-	private Client client;
-	
+	//private Server server;
+	//private Client client;
+	private Communication com ;
 	
 
 	
-	public User (String new_pseudo) {
+	public User (String i) {
 		this.connected = false;
-		this.pseudo = new_pseudo;	//Verification de pseudo dispo
+		this.pseudo = i;	//Verification de pseudo dispo
 		
 	}
 	
@@ -35,37 +35,34 @@ public class User {
 	}
 	
 	
-	public void connect(int numPort) throws Exception {
-		this.server = new Server(numPort);
+	public void connect(int numPort, int numPort2) throws Exception {
+		this.com = new Communication(numPort, numPort2);
 		this.connected=true ; //A déplacer après le BC
 		//this.serverSocket.communication(serverSocket);
 		
 	}
 	
 	public void disconnect() throws Exception {
-		this.server.serverSocket.close();
+		this.com.serverSocket.close();
 		this.connected=false ; //A déplacer après le BC
 	}
 	
 	public void send_Msg(String msg) {
 		try {
-			this.server.send(server,msg);
+			this.com.send(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
-	
-	
-	
-	
-	
-
-	
-	
-	
-
+	public void receive_Msg() {
+		try {
+			this.com.receive();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void main(String[] args) {
 
