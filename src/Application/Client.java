@@ -23,9 +23,8 @@ public class Client {
 	}	
 
 	public static void main(String[] args) throws IOException {
-		Client client = new Client(1234);
-
 		
+		Client client = new Client(1234);	
 		BufferedReader input =  new BufferedReader(new InputStreamReader(client.clientSocket.getInputStream())); 
 		String answer = input.readLine() ;
 		System.out.println(answer);

@@ -2,26 +2,21 @@ package Application;
 
 public class Main_Test {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		User agentA = new User ("Agent_A") ;
 		User agentB = new User ("Agent_B") ;
-		
-		try {
-			agentA.connect(1238,1234);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			agentB.connect(1239,1226);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		agentA.receive_Msg();
-		agentA.send_Msg("Salut mon pote");
+		System.out.println("A et B crées");
+
+		agentA.connect(1238,4234);
+		System.out.println("A co");
+		agentB.connect(1220,1226);
+		System.out.println("B co");
+
+		System.out.println("avant envoi msg A depuis main");
+		agentA.send_Msg("Salut !");
+		System.out.println("apres envoi msg A depuis main");
+		agentB.receive_Msg();
 	}
 		
 		

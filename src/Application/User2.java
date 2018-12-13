@@ -1,3 +1,4 @@
+
 package Application;
 
 import java.io.IOException;
@@ -30,14 +31,10 @@ public class User {
 	
 	//Quand un user est créer, il a le droit de modifier le pseudo
 	public void modify_Pseudo (String name) {
-		this.pseudo = name;
-		//Verification de pseudo dispo
-	}
 	
 	
 	public void connect(int numPort, int numPort2) throws Exception {
-		this.com.create_socket_serveur(numPort);	
-		this.com.create_socket_client(numPort2);
+		this.com = new Communication(numPort, numPort2);
 		this.connected=true ; //A déplacer après le BC
 		//this.serverSocket.communication(serverSocket);
 		

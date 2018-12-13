@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,19 +14,36 @@ public class Communication {
 	Socket clientSocket;
 
 	
-	public Communication(int numPort,int numPort2) {
+	public void create_socket_client(int numPort) throws java.net.UnknownHostException, IOException  {
 		//ServerSocket class
+		System.out.println("constructeur");
+
 		try {
-				this.serverSocket = new ServerSocket(numPort);
-				this.clientSocket = new Socket("127.0.0.1",numPort2);
+			this.serverSocket = new ServerSocket(numPort);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("constructeur création serversocket");
+		System.out.println(InetAddress.getLocalHost().getHostAddress());
+		}
+
+	public void create_socket_serveur(int numPort2) throws java.net.UnknownHostException, IOException  {
+
+		try {
+			this.clientSocket = new Socket( InetAddress.getLoopbackAddress(),numPort2);
+		} catch (IOException e) {
+		    System.out.println("Can't connect");
+		    System.exit(1);
+		}
+		
+		System.out.println("constructeur création clientsocket");
+		
 	}
 	
 	public void send (String msg) throws IOException {
+		System.out.println("envoi msg A depuis com");
+
 		//Put the server into a waiting state, listen for incoming connection
-		
 		Socket link = this.serverSocket.accept();
 		PrintWriter out = new PrintWriter(link.getOutputStream(),true);
 		//out.println(new Date().toString());
@@ -39,14 +57,11 @@ public class Communication {
 	}
 	
 	public void receive () throws IOException {
-		Client client = new Client(1234);
-
 		
-		BufferedReader input =  new BufferedReader(new InputStreamReader(client.clientSocket.getInputStream())); 
+		BufferedReader input =  new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream())); 
 		String answer = input.readLine() ;
 		System.out.println(answer);
-		
-		client.clientSocket.close();
+		this.clientSocket.close();
 
 	}
 	
