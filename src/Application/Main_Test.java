@@ -8,15 +8,19 @@ public class Main_Test {
 		User agentB = new User ("Agent_B") ;
 		System.out.println("A et B crées");
 
-		agentA.connect(1238,4234);
-		System.out.println("A co");
-		agentB.connect(1220,1226);
-		System.out.println("B co");
-
-		System.out.println("avant envoi msg A depuis main");
-		agentA.send_Msg("Salut !");
-		System.out.println("apres envoi msg A depuis main");
-		agentB.receive_Msg();
+		
+		agentA.connect_user(999);
+		System.out.println("User A conected");
+		//agentA.disconnect();
+		
+		
+		agentB.connect_user(1220);
+		//System.out.println("B co");
+//
+//		System.out.println("avant envoi msg A depuis main");
+//		agentA.send_Msg("Salut !");
+//		System.out.println("apres envoi msg A depuis main");
+//		agentB.receive_Msg();
 	}
 		
 		

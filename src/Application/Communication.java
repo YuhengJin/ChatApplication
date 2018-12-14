@@ -2,42 +2,36 @@ package Application;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Communication {
-	
-	ServerSocket serverSocket;
-	Socket clientSocket;
-
-	
-	public void create_socket_client(int numPort) throws java.net.UnknownHostException, IOException  {
-		//ServerSocket class
-		System.out.println("constructeur");
-
-		try {
-			this.serverSocket = new ServerSocket(numPort);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("constructeur création serversocket");
-		System.out.println(InetAddress.getLocalHost().getHostAddress());
-		}
-
-	public void create_socket_serveur(int numPort2) throws java.net.UnknownHostException, IOException  {
-
-		try {
-			this.clientSocket = new Socket( InetAddress.getLoopbackAddress(),numPort2);
-		} catch (IOException e) {
-		    System.out.println("Can't connect");
-		    System.exit(1);
-		}
+	public class Communication {
 		
-		System.out.println("constructeur création clientsocket");
+		 ServerSocket serverSocket = null;
+		  Socket clientSocket = null;
+		  InputStream is = null;
+	
 		
+	public Communication(int numPort, int numPort2) {
+		
+		try
+	    {
+	      serverSocket = new ServerSocket(10080);
+	      clientSocket= serverSocket.accept();
+	 
+	      is = clientSocket.getInputStream();
+	      int c;
+	      while((c = is.read()) != -1)
+	        System.out.write(c);
+	    }
+		catch(Exception e)
+	    {
+	      System.err.println("Pb de co " + e.toString());
+	    }
 	}
 	
 	public void send (String msg) throws IOException {
