@@ -31,16 +31,17 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				try {
-				    socket = new ServerSocket(2020);
+				    socket = new ServerSocket(2021);
 				    
-				    link= socket.accept();
-				    System.out.println("-----Capter la connection!!!----");
-					cThread = new CommunicateThread(link);
-					cThread.start();
+					while (true) {
+						link= socket.accept();
+					    System.out.println("-----Capter la connection!!!----");
+						cThread = new CommunicateThread(link);
+						cThread.start();
+		            }
+				
 					
 					
-					sendMesFromServer("Server qui parle Cote Server");
-					sendMesFromServer("ServerFinishChat");
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -53,12 +54,13 @@ public class Server {
 		//out.print("hello Client, I am Server!");
 		this.out.println(message);
 	    this.out.flush();
+	    //this.out.close();
 	    System.out.println("server send msg : " + message);
 	    if(message.equals("ServerFinishChat")) {
 	    	closeAll();
 	    }
 	    
-	   
+	  
 	}
 	
 	
@@ -105,8 +107,23 @@ public class Server {
 						link.close();
 						break;
 					}else {
-						System.out.println("Client say :    " + result);
+						//System.out.println( "------------------"+socket2.getPort());
+						System.out.println("Form Client[port:" + socket2.getPort()
+						+ "] 消息内容:" + result);
+						//System.out.println( "-----"+socket2.getPort());
+						sendMesFromServer("Hi,  天朗气清，惠风和畅！"+socket2.getPort());
+						//sendMesFromServer("ServerFinishChat");
+						
+					
+						
+						System.out.println(
+								"To Client[port:" + socket2.getPort() + "] 回复客户端的消息发送成功");
+						
+						
 					}
+					//inputBuff.close();
+					//out.close();
+					//socket2.close();
 					
 					
 					
@@ -119,7 +136,7 @@ public class Server {
 	} 
 	
 	 public static void main(String[] args)throws IOException {
-	        Server s = new Server(1500);//启动服务端
+	        Server s = new Server(1502);//启动服务端
 	        s.Startlistenning();
 	        
 	 }

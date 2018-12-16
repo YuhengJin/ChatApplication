@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,9 +29,10 @@ public class Client {
 	public void startClient() {
 		try {
 			
-			socket = new Socket("127.0.0.1",2020);
+			socket = new Socket("127.0.0.1",2021);
 			this.out =new PrintWriter(socket.getOutputStream(),true);
 			this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
 			this.lsmThread= new  ListenServerMes();
 			this.lsmThread.start();
 		} catch (UnknownHostException e) {
@@ -47,7 +49,6 @@ public class Client {
 	 */
 	public  void sendMessage (String mes){
 		this.out.println(mes);
-	    // Refresh the outPutStream
 	    this.out.flush();
 	    
 	    System.out.println("client send msg : " + mes);
@@ -60,6 +61,10 @@ public class Client {
 	    
 	}
 	
+	public int getPortClient() {
+		return socket.getLocalPort();
+	}
+	
 	public void closeAll() {
 		try {
 			this.socket.close();
@@ -70,8 +75,16 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+	
 	}
+
+	
+
+
+	
+	
+	
+	
 	
 
 	/*
@@ -92,7 +105,16 @@ public class Client {
 					}else {
 						
 						System.out.println("Server say :    " + result);
+				
 					}
+					
+	            
+					
+				
+					//inputBuff.close();
+					//out.close();
+					
+					//socket.close();
 					
 					
 					
@@ -107,9 +129,9 @@ public class Client {
 	}
 	
 	public static void main(String[] args) {
-        try {
+        /*try {
             Client c1 = new Client(1500);//启动客户端
-            System.out.println("Client 1 est cree");
+            System.out.println("Client[port: 与服务端建立连接...");
             c1.startClient();
             c1.sendMessage ("Cient qui parle Cote Client ");
             
@@ -117,12 +139,32 @@ public class Client {
             Client c2 = new Client(1500);//启动客户端
             System.out.println("Client 2 est cree");
             c2.startClient();
-            c2.sendMessage ("ExpediteurFinishChat");
+            c2.sendMessage ("CLient 2 parle");
             
             
         }catch (Exception e) {
-        }
+        }*/
+		
+		for (int i = 0; i < 3; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                    	Client c1 = new Client(1502);//启动客户端
+                        System.out.println("Client[port: 与服务端建立连接...");
+                        c1.startClient();
+                        c1.sendMessage ("Hello serve!"+ "qui parle Cote Client " +c1.getPortClient());
+                    	
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+		
+		
     }
+	}
 	
 	
 	
