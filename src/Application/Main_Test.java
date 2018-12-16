@@ -9,7 +9,7 @@ public class Main_Test {
 		System.out.println("A et B crées");
 
 		
-		agentA.connect_user(999);
+		agentA.connect_user();
 		System.out.println("User A conected");
 		//agentA.disconnect();
 		

@@ -37,6 +37,14 @@ public class User {
 	
 	
 	public void connect_user(int numPort) throws Exception {
+		this.server = new Server(numPort);
+		this.client = new Client(numPort);
+		System.out.println("Création deux cote sockets");
+	}
+	
+	
+	
+	public void connect_user(int numPort, int numPort2) throws Exception {
 		//System.out.println("Entrée connect user");
 		//this.server = new Server(numPort);
 		//System.out.println("Création socketserv");
@@ -46,43 +54,31 @@ public class User {
 
 	}
 	
-	
-	
-//	public void connect_user(int numPort, int numPort2) throws Exception {
-//		//System.out.println("Entrée connect user");
-//		//this.server = new Server(numPort);
-//		//System.out.println("Création socketserv");
-//
-//		this.client = new Client(numPort);
-//		System.out.println("Création socketclient");
-//
-//	}
-	
 
-//	public void send_Msg(String msg) {
-//	
-//			System.out.println("envoi msg A depuis user");
-//			try {
-//				this.server.send(this.server,msg);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//	}
-//	
-//	
-//	public void receive_Msg() {
-//		try {
-//			this.client.receive(this.client);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	public void disconnect() throws Exception {
-//		this.server.closeAll();
-//		this.client.closeAll();
-//		this.connected=false ; //A déplacer après le BC
-//	}
+	public void send_Msg(String msg) {
+	
+			System.out.println("envoi msg A depuis user");
+			try {
+				this.server.send(this.server,msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
+	
+	public void receive_Msg() {
+		try {
+			this.client.receive(this.client);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void disconnect() throws Exception {
+		this.server.closeAll();
+		this.client.closeAll();
+		this.connected=false ; //A déplacer après le BC
+	}
 
 
 }
