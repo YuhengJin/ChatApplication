@@ -50,7 +50,6 @@ public class Client {
 	public  void sendMessage (String mes){
 		this.out.println(mes);
 	    this.out.flush();
-	    
 	    System.out.println("client send msg : " + mes);
 	    if(mes.equals("ExpediteurFinishChat")) {
 	    	closeAll();
@@ -146,24 +145,22 @@ public class Client {
         }*/
 		
 		for (int i = 0; i < 3; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                    	Client c1 = new Client(1502);//启动客户端
-                        System.out.println("Client[port: 与服务端建立连接...");
-                        c1.startClient();
-                        c1.sendMessage ("Hello serve!"+ "qui parle Cote Client " +c1.getPortClient());
-                    	
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Client c1 = new Client(1502);// 启动客户端
+						System.out.println("Client[port: Connection with the server...");
+						c1.startClient();
+						c1.sendMessage("Hello server!" + "parle Cote Client " + c1.getPortClient());
 
-		
-		
-    }
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+
+		}
 	}
 	
 	

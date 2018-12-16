@@ -109,15 +109,15 @@ public class Server {
 					}else {
 						//System.out.println( "------------------"+socket2.getPort());
 						System.out.println("Form Client[port:" + socket2.getPort()
-						+ "] 消息内容:" + result);
+						+ "] Content is : " + result);
 						//System.out.println( "-----"+socket2.getPort());
-						sendMesFromServer("Hi,  天朗气清，惠风和畅！"+socket2.getPort());
+						sendMesFromServer("Hi, bro  how are you！"+socket2.getPort());
 						//sendMesFromServer("ServerFinishChat");
 						
 					
 						
 						System.out.println(
-								"To Client[port:" + socket2.getPort() + "] 回复客户端的消息发送成功");
+								"To Client[port:" + socket2.getPort() + "] The response to client succes");
 						
 						
 					}
@@ -136,8 +136,8 @@ public class Server {
 	} 
 	
 	 public static void main(String[] args)throws IOException {
-	        Server s = new Server(1502);//启动服务端
-	        s.Startlistenning();
+	        Server s = new Server(1502);//Create the server 
+	        s.Startlistenning(); //Launch the thread
 	        
 	 }
 	
