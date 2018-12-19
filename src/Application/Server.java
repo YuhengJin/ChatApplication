@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import Application.Server;
 import Application.Client.ListenServerMes;
@@ -21,6 +22,7 @@ public class Server {
 	private PrintWriter out;
 	private BufferedReader inputBuff;
 	private CommunicateThread cThread;
+	private ArrayList<String> listUserConnecte = new ArrayList<String>();
 	
 	public Server(int numPort) {
 		this.port = numPort;
@@ -37,13 +39,17 @@ public class Server {
 				    
 					while (true) {
 						link= socket.accept();
-					    System.out.println("-----Capter la connection!!!----");
+					    System.out.println("[Waiting for someone to connect ...]");
 						cThread = new CommunicateThread(link);
 						cThread.start();
 		            }
+				
+					
+					
+
 				} catch (IOException e) {
 					e.printStackTrace();
-			}
+				}
 			}
 		}).start();
 	}
@@ -53,20 +59,14 @@ public class Server {
 		this.out.println(message);
 	    this.out.flush();
 	    //this.out.close();
-	    System.out.println("server send msg : " + message);
+	    //System.out.println("server send msg : " + message);
 	    if(message.equals("ServerFinishChat")) {
 	    	closeAll();
 	    }
 	    
 	  
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	public void closeAll() {
 		try {
 			this.socket.close();
@@ -93,6 +93,7 @@ public class Server {
 		}
 		
 		public void run() {
+			int flag = 0;
 			super.run();
 			String result = null;
 			try {
@@ -100,10 +101,26 @@ public class Server {
 				while ((result = inputBuff.readLine()) != null) {
 					if(result.equals("ExpediteurFinishChat")) {
 						System.out.println("Capter le     ExpediteurFinishChat");
+						listUserConnecte.remove(user.get_Name());
 						inputBuff.close();
 						out.close();
 						link.close();
 						break;
+					}
+					if(result.equals("showuser")) {
+						sendMesFromServer("*************");
+						for(int i=0;i<listUserConnecte.size();i++) {
+							sendMesFromServer("["+listUserConnecte.get(i)+"]");
+						}
+						
+						
+					}
+					
+					if(flag++ ==0) {  //La 1er fois on connecte
+						
+						System.out.println("La premiere fois"+user.get_Name()+"on connecte");
+						listUserConnecte.add(user.get_Name());
+						
 					}else {
 						//System.out.println( "------------------"+socket2.getPort());
 						System.out.println("Form Client[port:" + socket2.getPort()
@@ -131,14 +148,11 @@ public class Server {
 				e.printStackTrace();
 			}
 		}
-	} 
-	
+	}
+
 	 public static void main(String[] args)throws IOException {
 	        Server s = new Server(1502);//Create the server 
 	        s.Startlistenning(); //Launch the thread
 	        
 	 }
-	
-	
-
 }
