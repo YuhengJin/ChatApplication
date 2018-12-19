@@ -75,10 +75,7 @@ public class Client {
 	    if(mes.equals("ExpediteurFinishChat")) {
 	    	closeAll();
 	    }
-	    	
-	    
-	    
-	    
+
 	}
 	
 	public int getPortClient() {
@@ -98,15 +95,6 @@ public class Client {
 	
 	}
 
-	
-
-
-	
-	
-	
-	
-	
-
 	/*
 	 * Get the information from the server
 	 */
@@ -125,70 +113,46 @@ public class Client {
 					}else {
 						
 						System.out.println("Server say :    " + result);
-				
 					}
-					
-					//inputBuff.close();
-					//out.close();
-					//socket.close();
-					
-					
-					
 				}
 			
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		
-	
+
 		}
 	}
 	
-	/*public static void main(String[] args) {
-		for (int i = 0; i < 3; i++) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						Client c1 = new Client(1502);// 启动客户端
-						System.out.println("Client[port: Connection with the server...");
-						c1.startClient();
-						
-						c1.sendMessage("Hello server!" + "parle Cote Client " + c1.getPortClient());
+//	public static void main(String[] args) {
+//		for (int i = 0; i < 3; i++) {
+//			new Thread(new Runnable() {
+//				@Override
+//				public void run() {
+//					try {
+//						Client c1 = new Client(1502);// 启动客户端
+//						System.out.println("Client[port: Connection with the server...");
+//						c1.startClient();
+//						
+//						c1.sendMessage("Hello server!" + "parle Cote Client " + c1.getPortClient());
+//
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}).start();
+//
+//		}
+//	}
 
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}).start();
+	
+//	public static void main(String[] args) {
+//		Client c1 = new Client(1502);// 启动客户端
+//		System.out.println("Client[port: Connection with the server...");
+//		c1.startClient();
+//		
+//		c1.sendMessage("Hello server!" + "parle Cote Client " + c1.getPortClient());
+//		
+//	}
+//	
 
-		}
-	}*/
-	
-	
-	
-	public static void main(String[] args) {
-		Client c1 = new Client(1502);// 启动客户端
-		System.out.println("Client[port: Connection with the server...");
-		c1.startClient();
-		
-		c1.sendMessage("Hello server!" + "parle Cote Client " + c1.getPortClient());
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 }
-	
-
-
-
-
-
-
-

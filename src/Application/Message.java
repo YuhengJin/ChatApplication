@@ -3,9 +3,9 @@ package Application;
 public class Message {
 	
 	
-	public Message{
+	//public Message{
 		
-	}
+	//}
 	
 
 }

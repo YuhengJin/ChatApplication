@@ -41,13 +41,9 @@ public class Server {
 						cThread = new CommunicateThread(link);
 						cThread.start();
 		            }
-				
-					
-					
-
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+			}
 			}
 		}).start();
 	}

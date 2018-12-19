@@ -35,13 +35,7 @@ public class User {
 		this.addressUser = address;
 		this.portServerUser = portServer;
 	}
-	
-	
 
-	
-	
-	
-	
 	
 	//Quand un user est créer, il a le droit de modifier le pseudo
 	public void set_Name (String pseudo) {
