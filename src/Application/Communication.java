@@ -9,7 +9,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-	public class Communication {
+/*	public class Communication {
 		
 		 ServerSocket serverSocket = null;
 		  Socket clientSocket = null;
@@ -61,3 +61,4 @@ import java.net.Socket;
 	
 
 }
+*/

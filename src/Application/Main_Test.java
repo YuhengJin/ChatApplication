@@ -1,10 +1,17 @@
 package Application;
 
+import java.net.Socket;
+
 public class Main_Test {
 
 	public static void main(String[] args) throws Exception {
+		
+		Socket socket =  new Socket();
+		System.out.println(socket.getInetAddress().toString());
+		System.out.println(socket.getLocalAddress().toString());
+		
 
-		User agentA = new User ("Agent_A") ;
+		/*User agentA = new User ("Agent_A") ;
 		User agentB = new User ("Agent_B") ;
 		System.out.println("A et B crées");
 
@@ -14,7 +21,7 @@ public class Main_Test {
 		//agentA.disconnect();
 		
 		
-		agentB.connect_user(1220);
+		agentB.connect_user(1220);*/
 		//System.out.println("B co");
 //
 //		System.out.println("avant envoi msg A depuis main");

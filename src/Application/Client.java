@@ -19,17 +19,32 @@ public class Client {
 	private int port;
 	private PrintWriter out;
 	private BufferedReader inputBuff;
+	private InetAddress address;
+	private User user;
 	
 	
 	public Client(int numPort) {
 			this.port = numPort;
-			
+	}
+	
+	public Client(InetAddress address,int numPort) {
+		this.address = address;
+		this.port = numPort;
+		
 	}
 	
 	public void startClient() {
 		try {
-			
+			//socket = new Socket(this.address,this.numPort);
 			socket = new Socket("127.0.0.1",2021);
+			// 60s超时
+            socket.setSoTimeout(60000);
+			
+			/*System.out.println("==============");
+			System.out.println("====="+socket.getInetAddress().toString());
+			System.out.println(socket.getLocalAddress().toString());*/
+			
+			
 			this.out =new PrintWriter(socket.getOutputStream(),true);
 			this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
@@ -48,6 +63,12 @@ public class Client {
 	 * Send the message that client prepared to transfer 
 	 */
 	public  void sendMessage (String mes){
+		
+		/*System.out.println("++++++++");
+		System.out.println("++++"+socket.getInetAddress().toString());
+		System.out.println(socket.getLocalAddress().toString());*/
+		
+		
 		this.out.println(mes);
 	    this.out.flush();
 	    System.out.println("client send msg : " + mes);
@@ -97,8 +118,8 @@ public class Client {
 			try {
 				while ((result = inputBuff.readLine()) != null) {
 					if(result.equals("RecieveFinishChat")) {
-						out.close();
 						inputBuff.close();
+						out.close();
 						socket.close();
 						break;
 					}else {
@@ -107,12 +128,8 @@ public class Client {
 				
 					}
 					
-	            
-					
-				
 					//inputBuff.close();
 					//out.close();
-					
 					//socket.close();
 					
 					
@@ -127,23 +144,7 @@ public class Client {
 		}
 	}
 	
-	public static void main(String[] args) {
-        /*try {
-            Client c1 = new Client(1500);//启动客户端
-            System.out.println("Client[port: 与服务端建立连接...");
-            c1.startClient();
-            c1.sendMessage ("Cient qui parle Cote Client ");
-            
-            
-            Client c2 = new Client(1500);//启动客户端
-            System.out.println("Client 2 est cree");
-            c2.startClient();
-            c2.sendMessage ("CLient 2 parle");
-            
-            
-        }catch (Exception e) {
-        }*/
-		
+	/*public static void main(String[] args) {
 		for (int i = 0; i < 3; i++) {
 			new Thread(new Runnable() {
 				@Override
@@ -152,6 +153,7 @@ public class Client {
 						Client c1 = new Client(1502);// 启动客户端
 						System.out.println("Client[port: Connection with the server...");
 						c1.startClient();
+						
 						c1.sendMessage("Hello server!" + "parle Cote Client " + c1.getPortClient());
 
 					} catch (Exception e) {
@@ -161,7 +163,22 @@ public class Client {
 			}).start();
 
 		}
+	}*/
+	
+	
+	
+	public static void main(String[] args) {
+		Client c1 = new Client(1502);// 启动客户端
+		System.out.println("Client[port: Connection with the server...");
+		c1.startClient();
+		
+		c1.sendMessage("Hello server!" + "parle Cote Client " + c1.getPortClient());
+		
 	}
+	
+	
+	
+	
 	
 	
 	

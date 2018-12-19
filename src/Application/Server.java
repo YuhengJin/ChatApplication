@@ -13,6 +13,7 @@ import Application.Client.ListenServerMes;
 
 public class Server {
 	
+	private User user;
 	private ServerSocket socket;
 	private int port;
 	private Socket link;
@@ -31,6 +32,7 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				try {
+					//socket = new ServerSocket(port);
 				    socket = new ServerSocket(2021);
 				    
 					while (true) {
@@ -102,8 +104,8 @@ public class Server {
 				while ((result = inputBuff.readLine()) != null) {
 					if(result.equals("ExpediteurFinishChat")) {
 						System.out.println("Capter le     ExpediteurFinishChat");
-						out.close();
 						inputBuff.close();
+						out.close();
 						link.close();
 						break;
 					}else {

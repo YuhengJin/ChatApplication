@@ -1,6 +1,8 @@
 package Application;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -17,67 +19,78 @@ public class User {
 	//Variables locales
 	private boolean connected;
 	private String pseudo; 
+	private InetAddress addressUser;
+	private int portClientUser;
+	private int portServerUser;
+	
+	
 	private Server server;
 	private Client client;
-	private Communication com ;
 
 	
-	public User (String i)  {
+	public User (String pseudo,InetAddress address, int portServer)  {
 		this.connected = false;
-		this.pseudo = i;	//Verification de pseudo dispo
-
-		
+		this.pseudo = pseudo;	
+		//Verification de pseudo dispo
+		this.addressUser = address;
+		this.portServerUser = portServer;
 	}
 	
+	
+
+	
+	
+	
+	
+	
 	//Quand un user est créer, il a le droit de modifier le pseudo
-	public void modify_Pseudo (String name) {
-		this.pseudo = name;
+	public void set_Name (String pseudo) {
+		this.pseudo = pseudo;
 		//Verification de pseudo dispo
 	}
 	
+	public String get_Name() {
+		return this.pseudo;
+	}
 	
-	public void connect_user(int numPort) throws Exception {
+	public InetAddress get_Address() {
+		return this.addressUser;
+	}
+	
+	public int get_Port() {
+		return this.portServerUser;
+	}
+	
+	
+	public boolean get_StatusConnec() {
+		return this.connected;
+	}
+	
+	
+	
+	
+	
+	
+	
+	public void connecter(int numPort) throws Exception {
 		this.server = new Server(numPort);
 		this.client = new Client(numPort);
-		System.out.println("Création deux cote sockets");
+		System.out.println("Connection,Création deux cote sockets");
 	}
 	
 	
-	
-	public void connect_user(int numPort, int numPort2) throws Exception {
-		//System.out.println("Entrée connect user");
-		//this.server = new Server(numPort);
-		//System.out.println("Création socketserv");
-
-		this.client = new Client(numPort);
-		System.out.println("Création socketclient");
-
-	}
 	
 
-	public void send_Msg(String msg) {
 	
-			System.out.println("envoi msg A depuis user");
-			try {
-				this.server.send(this.server,msg);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
+
+
 	
-	
-	public void receive_Msg() {
-		try {
-			this.client.receive(this.client);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+	//Shut down the system
 	public void disconnect() throws Exception {
 		this.server.closeAll();
 		this.client.closeAll();
 		this.connected=false ; //A déplacer après le BC
+		System.out.println("La session de"+this.pseudo+" est fini");
 	}
 
 
