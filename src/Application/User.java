@@ -27,6 +27,10 @@ public class User {
 	private Server server;
 	private Client client;
 
+	public User() {
+		
+	}
+	
 	
 	public User (String pseudo,InetAddress address, int portServer)  {
 		this.connected = false;
@@ -66,7 +70,7 @@ public class User {
 	
 	
 	
-	public void connecter(int numPort) throws Exception {
+/*	public void connecter(int numPort) throws Exception {
 		this.server = new Server(numPort);
 		this.client = new Client(numPort);
 		System.out.println("Connection,Création deux cote sockets");
@@ -85,7 +89,7 @@ public class User {
 		this.client.closeAll();
 		this.connected=false ; //A déplacer après le BC
 		System.out.println("La session de"+this.pseudo+" est fini");
-	}
+	}*/
 
 
 }

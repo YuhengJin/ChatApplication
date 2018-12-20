@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -15,6 +16,7 @@ import Application.Client.ListenServerMes;
 public class Server {
 	
 	private User user;
+	private Chat chat;
 	private ServerSocket socket;
 	private int port;
 	private Socket link;
@@ -22,10 +24,16 @@ public class Server {
 	private PrintWriter out;
 	private BufferedReader inputBuff;
 	private CommunicateThread cThread;
-	private ArrayList<String> listUserConnecte = new ArrayList<String>();
+	//private ArrayList<User> listUserConnecte = new ArrayList<User>();
 	
 	public Server(int numPort) {
 		this.port = numPort;
+	}
+	
+	public Server(int numPort, User u, Chat c) {
+		this.port = numPort;
+		this.user = u;
+		this.chat = c;
 	}
 	
 	
@@ -101,25 +109,22 @@ public class Server {
 				while ((result = inputBuff.readLine()) != null) {
 					if(result.equals("ExpediteurFinishChat")) {
 						System.out.println("Capter le     ExpediteurFinishChat");
-						listUserConnecte.remove(user.get_Name());
+						chat.getUsers().remove(user);
 						inputBuff.close();
 						out.close();
 						link.close();
 						break;
 					}
+					
 					if(result.equals("showuser")) {
-						sendMesFromServer("*************");
-						for(int i=0;i<listUserConnecte.size();i++) {
-							sendMesFromServer("["+listUserConnecte.get(i)+"]");
-						}
-						
-						
+						//sendMesFromServer("*************");
+						chat.printUserConnecte();
 					}
 					
 					if(flag++ ==0) {  //La 1er fois on connecte
 						
 						System.out.println("La premiere fois"+user.get_Name()+"on connecte");
-						listUserConnecte.add(user.get_Name());
+						chat.getUsers().add(user);
 						
 					}else {
 						//System.out.println( "------------------"+socket2.getPort());
