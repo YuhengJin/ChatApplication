@@ -12,7 +12,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client {
+import Application.Server.CommunicateThread;
+
+public class Client3 {
 	
 	private ListenServerMes lsmThread;
 	private Socket socket;
@@ -21,23 +23,52 @@ public class Client {
 	private BufferedReader inputBuff;
 	private InetAddress address;
 	private User user;
-	private String pseudo;
+	private ServerSocket socketserv;
+	private Socket link;
+	private CommunicateThread cThread;
+
+
+
+
 	
-	public Client(int numPort, String name) {
+	public Client3(int numPort) {
 			this.port = numPort;
-			this.pseudo = name ;
 	}
 	
-	public Client(InetAddress address,int numPort) {
+	public Client3(InetAddress address,int numPort) {
 		this.address = address;
 		this.port = numPort;
 		
 	}
 	
+	public void Startlistenning() {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					//socket = new ServerSocket(port);
+				    socketserv = new ServerSocket(2021);
+				    
+					while (true) {
+						link= socket.accept();
+					    System.out.println("[Waiting for someone to connect ...]");
+						cThread = new CommunicateThread(link);
+						cThread.start();
+		            }
+				
+					
+					
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+	
 	public void startClient() {
 		try {
 			//socket = new Socket(this.address,this.numPort);
-			socket = new Socket("127.0.0.1",port);
+			socket = new Socket("127.0.0.1",2021);
 			// 60s超时
             socket.setSoTimeout(60000);
 			
@@ -72,7 +103,7 @@ public class Client {
 		
 		this.out.println(mes);
 	    this.out.flush();
-	    System.out.println("[Message from "+ pseudo+": " + mes);
+	    System.out.println("[Message from "+ this.getPortClient()+": " + mes);
 	    if(mes.equals("ExpediteurFinishChat")) {
 	    	closeAll();
 	    }
@@ -81,10 +112,6 @@ public class Client {
 	
 	public int getPortClient() {
 		return socket.getLocalPort();
-	}
-	
-	public String getname() {
-		return this.pseudo ;
 	}
 	
 	public void closeAll() {
@@ -117,7 +144,7 @@ public class Client {
 						break;
 					}else {
 						
-						System.out.println("[Confirmation : " + result+"]");
+						System.out.println("Server say :    " + result);
 				
 					}
 
@@ -157,6 +184,7 @@ public class Client {
 		
 	} 
 	
+
 	
 }
 
