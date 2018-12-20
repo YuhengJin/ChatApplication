@@ -44,7 +44,7 @@ public class Server {
 			public void run() {
 				try {
 					socket = new ServerSocket(port);
-				    
+				     
 					while (true) {
 						link= socket.accept();
 					    System.out.println("["+pseudo+": Waiting for someone to connect ...]");
@@ -82,7 +82,9 @@ public class Server {
 	}
 	
 	public class CommunicateThread extends Thread {
+
 		public CommunicateThread(Socket s) {
+			System.out.println("[Nouvelle abonnement à "+pseudo+" de la part de "+s.getPort()+"]") ;
 			socket2 = s;
 			try {
 				out = new PrintWriter(socket2.getOutputStream(),true);

@@ -39,7 +39,7 @@ public class Client {
 			//socket = new Socket(this.address,this.numPort);
 			socket = new Socket("127.0.0.1",port);
 			// 60s超时
-            socket.setSoTimeout(60000);
+            //socket.setSoTimeout(60000);
 			
 			/*System.out.println("==============");
 			System.out.println("====="+socket.getInetAddress().toString());
@@ -53,7 +53,7 @@ public class Client {
 			this.lsmThread.start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (IOException e) { 
 			e.printStackTrace();
 		}
 		
@@ -119,7 +119,7 @@ public class Client {
 						
 						System.out.println("[Confirmation : " + result+"]");
 				
-					}
+					} 
 
 				}
 			
