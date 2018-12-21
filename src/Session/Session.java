@@ -10,7 +10,7 @@ public class Session {
 	private InetAddress desti;
 	private int port;
 	
-	
+
 	
 	public Session(InetAddress i, int rt1) {
 		desti = i;
@@ -18,14 +18,12 @@ public class Session {
 
 	}
 	
-
+	
 	public void sendmesssage(String message) {
 		try {
 			DatagramSocket ds = new DatagramSocket();
 			byte [] data = message.getBytes();
-			DatagramPacket dp = new DatagramPacket(data, data.length);
-			dp.setAddress(desti);
-			dp.setPort(port);
+			DatagramPacket dp = new DatagramPacket(data, data.length,desti,port);
 			ds.send(dp);
 			ds.close();
 

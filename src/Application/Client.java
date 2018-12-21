@@ -12,6 +12,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import Interface.Dialogue;
+import Interface.Graphique;
+
 public class Client {
 	
 	private ListenServerMes lsmThread;
@@ -21,8 +24,10 @@ public class Client {
 	private BufferedReader inputBuff;
 	private InetAddress address;
 	private User user;
+	private Chat chat;
+	Dialogue d;
 	
-	
+
 	public Client(int numPort) {
 			this.port = numPort;
 	}
@@ -30,13 +35,26 @@ public class Client {
 	public Client(InetAddress address,int numPort) {
 		this.address = address;
 		this.port = numPort;
+	}
+	
+	
+	public Client(int numPort,User u,Chat c) {
+		this.port = numPort;
+		this.user = u;
+		this.chat =c;
+		
 		
 	}
 	
 	public void startClient() {
 		try {
-			//socket = new Socket(this.address,this.numPort);
-			socket = new Socket("127.0.0.1",2021);
+			
+		
+			d = new Dialogue(chat, user, "Client");
+			
+			socket = new Socket(this.address,this.port);
+			//System.out.println("Port CLient est "+this.port);
+			//socket = new Socket("127.0.0.1",this.port);
 			// 60s超时
             socket.setSoTimeout(60000);
 			
@@ -94,7 +112,7 @@ public class Client {
 		}
 	
 	}
-
+	
 	/*
 	 * Get the information from the server
 	 */
@@ -105,14 +123,17 @@ public class Client {
 			String result = null;
 			try {
 				while ((result = inputBuff.readLine()) != null) {
-					if(result.equals("RecieveFinishChat")) {
+					if(result.equals("bye client")) {
 						inputBuff.close();
 						out.close();
 						socket.close();
+						//d.showmessageialog("the chat is finished");
 						break;
 					}else {
 						
-						System.out.println("Server say :    " + result);
+						d.showmessagerecu(user.get_Name() + " to "
+								+ chat.getUserName()+ " : " + result);
+						System.out.println("Recu[CLient] Server say :    " + result);
 				
 					}
 
@@ -149,13 +170,13 @@ public class Client {
 	
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		Client c1 = new Client(1502);// 启动客户端
 		//System.out.println("Client[port: Connection with the server...");
 		c1.startClient();	
 		c1.sendMessage("Hello server! I'm UserC1 "+ c1.getPortClient());
 		
-	}
+	}*/
 	
 	
 	

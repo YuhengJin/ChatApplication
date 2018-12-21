@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import Application.Server;
 import Application.Client.ListenServerMes;
+import Interface.Dialogue;
+import Interface.Graphique;
 
 public class Server {
 	
@@ -24,6 +26,7 @@ public class Server {
 	private PrintWriter out;
 	private BufferedReader inputBuff;
 	private CommunicateThread cThread;
+	
 	//private ArrayList<User> listUserConnecte = new ArrayList<User>();
 	
 	public Server(int numPort) {
@@ -37,14 +40,14 @@ public class Server {
 	}
 	
 	
-	
+
 	public void Startlistenning() {
 		new Thread(new Runnable() {
 			public void run() {
 				try {
 					//socket = new ServerSocket(port);
-				    socket = new ServerSocket(2021);
-				    
+				    socket = new ServerSocket(port);
+				    //System.out.println("port Server est "+port);
 					while (true) {
 						link= socket.accept();
 					    System.out.println("[Waiting for someone to connect ...]");
@@ -93,60 +96,56 @@ public class Server {
 		public CommunicateThread(Socket s) {
 			socket2 = s;
 			try {
-				out = new PrintWriter(socket2.getOutputStream(),true);
-				inputBuff =new BufferedReader(new InputStreamReader(socket2.getInputStream()));
+				out = new PrintWriter(socket2.getOutputStream(), true);
+				inputBuff = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		public void run() {
+			Dialogue d = new Dialogue();
 			int flag = 0;
 			super.run();
 			String result = null;
 			try {
-				//System.out.println("tt"+ inputBuff.readLine());
+				// System.out.println("tt"+ inputBuff.readLine());
 				while ((result = inputBuff.readLine()) != null) {
-					if(result.equals("ExpediteurFinishChat")) {
+					if (result.equals("bye server")) {
 						System.out.println("Capter le     ExpediteurFinishChat");
-						chat.getUsers().remove(user);
+						// chat.getUsers().remove(user);
 						inputBuff.close();
 						out.close();
 						link.close();
 						break;
+					} else {
+
+						if (flag++ == 0) { // La 1er fois on connecte
+
+							System.out.println("La premiere fois" + user.get_Name() + "on connecte");
+
+							d = new Dialogue(chat, user, "Server");
+							d.showmessagerecu(user.get_Name() + " to " + chat.getUserName() + " : " + result);
+
+						} else {
+							// System.out.println( "------------------"+socket2.getPort());
+							d.showmessagerecu(user.get_Name() + " to " + chat.getUserName() + " : " + result);
+							System.out.println(
+									"Recu[server] Form Client[port:" + socket2.getPort() + "] Content is : " + result);
+							// System.out.println( "-----"+socket2.getPort());
+							// sendMesFromServer("Hi, bro how are you！"+socket2.getPort());
+							// sendMesFromServer("ServerFinishChat");
+
+//						System.out.println(
+//								"To Client[port:" + socket2.getPort() + "] The response to client succes");
+
+						}
+
 					}
-					
-					if(result.equals("showuser")) {
-						//sendMesFromServer("*************");
-						chat.printUserConnecte();
-					}
-					
-					if(flag++ ==0) {  //La 1er fois on connecte
-						
-						System.out.println("La premiere fois"+user.get_Name()+"on connecte");
-						chat.getUsers().add(user);
-						
-					}else {
-						//System.out.println( "------------------"+socket2.getPort());
-						System.out.println("Form Client[port:" + socket2.getPort()
-						+ "] Content is : " + result);
-						//System.out.println( "-----"+socket2.getPort());
-						sendMesFromServer("Hi, bro  how are you！"+socket2.getPort());
-						//sendMesFromServer("ServerFinishChat");
-						
-					
-						
-						System.out.println(
-								"To Client[port:" + socket2.getPort() + "] The response to client succes");
-						
-						
-					}
-					//inputBuff.close();
-					//out.close();
-					//socket2.close();
-					
-					
-					
+					// inputBuff.close();
+					// out.close();
+					// socket2.close();
+
 				}
 			
 			} catch (IOException e) {
@@ -155,9 +154,9 @@ public class Server {
 		}
 	}
 
-	 public static void main(String[] args)throws IOException {
+	/* public static void main(String[] args)throws IOException {
 	        Server s = new Server(1502);//Create the server 
 	        s.Startlistenning(); //Launch the thread
 	        
-	 }
+	 }*/
 }

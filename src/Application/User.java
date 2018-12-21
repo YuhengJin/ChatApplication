@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.io.PrintWriter;
 
 
@@ -20,8 +21,9 @@ public class User {
 	private boolean connected;
 	private String pseudo; 
 	private InetAddress addressUser;
-	private int portClientUser;
+	//private int portClientUser;
 	private int portServerUser;
+	private ArrayList<User> users;
 	
 	
 	private Server server;
@@ -33,12 +35,17 @@ public class User {
 	
 	
 	public User (String pseudo,InetAddress address, int portServer)  {
-		this.connected = false;
+		this.connected = true;
 		this.pseudo = pseudo;	
 		//Verification de pseudo dispo
 		this.addressUser = address;
 		this.portServerUser = portServer;
+		
+		//this.server = new Server(portServer);
+		//this.server.Startlistenning();
 	}
+
+	
 
 	
 	//Quand un user est créer, il a le droit de modifier le pseudo
@@ -65,15 +72,33 @@ public class User {
 	}
 	
 	
+	public Client get_Client() {
+		return this.client;
+	}
 	
 	
 	
 	
 	
-/*	public void connecter(int numPort) throws Exception {
-		this.server = new Server(numPort);
-		this.client = new Client(numPort);
-		System.out.println("Connection,Création deux cote sockets");
+	
+	
+	
+	
+	//Connecte avec un autre user
+	public void connecter(int numPort) throws Exception {
+		//this.server = new Server(numPort);
+		this.client = new Client(this.addressUser,numPort);
+		//this.connected=true ;
+		System.out.println(pseudo+"son port Server  "+portServerUser+"-------connection with port-----"+numPort);
+		
+		this.client.startClient();	
+		//this.client.sendMessage("Hello server! "+ this.client.getPortClient());
+	}
+	
+
+	
+	public void sendMessage(String message) {
+		this.client.sendMessage(message);
 	}
 	
 	
@@ -85,11 +110,11 @@ public class User {
 	
 	//Shut down the system
 	public void disconnect() throws Exception {
+		System.out.println("La session de"+this.pseudo+" est fini");
 		this.server.closeAll();
 		this.client.closeAll();
 		this.connected=false ; //A déplacer après le BC
-		System.out.println("La session de"+this.pseudo+" est fini");
-	}*/
+	}
 
 
 }
