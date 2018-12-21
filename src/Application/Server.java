@@ -28,9 +28,11 @@ public class Server {
 	private CommunicateThread cThread;
 	
 	//private ArrayList<User> listUserConnecte = new ArrayList<User>();
+	private String pseudo;
 	
-	public Server(int numPort) {
+	public Server(int numPort,String name) {
 		this.port = numPort;
+		this.pseudo=name ;
 	}
 	
 	public Server(int numPort, User u, Chat c) {
@@ -45,18 +47,17 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				try {
+
 					//socket = new ServerSocket(port);
 				    socket = new ServerSocket(port);
 				    //System.out.println("port Server est "+port);
+
 					while (true) {
 						link= socket.accept();
-					    System.out.println("[Waiting for someone to connect ...]");
+					    System.out.println("["+pseudo+": Waiting for someone to connect ...]");
 						cThread = new CommunicateThread(link);
 						cThread.start();
 		            }
-				
-					
-					
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -66,16 +67,11 @@ public class Server {
 	}
 	
 	public void sendMesFromServer(String message) {
-		//out.print("hello Client, I am Server!");
 		this.out.println(message);
 	    this.out.flush();
-	    //this.out.close();
-	    //System.out.println("server send msg : " + message);
 	    if(message.equals("ServerFinishChat")) {
 	    	closeAll();
-	    }
-	    
-	  
+	    }	    	  
 	}
 
 	public void closeAll() {
@@ -93,7 +89,9 @@ public class Server {
 	}
 	
 	public class CommunicateThread extends Thread {
+
 		public CommunicateThread(Socket s) {
+			System.out.println("[Nouvelle abonnement à "+pseudo+" de la part de "+s.getPort()+"]") ;
 			socket2 = s;
 			try {
 				out = new PrintWriter(socket2.getOutputStream(), true);
@@ -109,7 +107,7 @@ public class Server {
 			super.run();
 			String result = null;
 			try {
-				// System.out.println("tt"+ inputBuff.readLine());
+
 				while ((result = inputBuff.readLine()) != null) {
 					if (result.equals("bye server")) {
 						System.out.println("Capter le     ExpediteurFinishChat");
@@ -142,10 +140,14 @@ public class Server {
 						}
 
 					}
+
 					// inputBuff.close();
 					// out.close();
 					// socket2.close();
 
+
+					
+					
 				}
 			
 			} catch (IOException e) {
@@ -154,9 +156,11 @@ public class Server {
 		}
 	}
 
+
 	/* public static void main(String[] args)throws IOException {
 	        Server s = new Server(1502);//Create the server 
 	        s.Startlistenning(); //Launch the thread
 	        
 	 }*/
+
 }

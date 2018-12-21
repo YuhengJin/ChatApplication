@@ -9,31 +9,23 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.io.PrintWriter;
 
-
-//import Application.Server;
-//import Application.Client ;
-//import java.lang.String;
-
-
 public class User {
 
-	//Variables locales
+		//Variables locales
 	private boolean connected;
 	private String pseudo; 
 	private InetAddress addressUser;
-	//private int portClientUser;
+
 	private int portServerUser;
 	private ArrayList<User> users;
 	
 	
+
 	private Server server;
 	private Client client;
-
-	public User() {
-		
-	}
-	
-	
+	private List_users usersList ;
+    private BroadCastClient broadCast ;
+    
 	public User (String pseudo,InetAddress address, int portServer)  {
 		this.connected = true;
 		this.pseudo = pseudo;	
@@ -45,31 +37,32 @@ public class User {
 		//this.server.Startlistenning();
 	}
 
+	public void sendMsg(String msg) {
+		//server.sendMesFromServer(msg) ;
+		client.sendMessage(msg);
+	}
 	
 
-	
-	//Quand un user est créer, il a le droit de modifier le pseudo
 	public void set_Name (String pseudo) {
 		this.pseudo = pseudo;
 		//Verification de pseudo dispo
 	}
 	
+		/* Getteurs */ 
+	
 	public String get_Name() {
 		return this.pseudo;
 	}
-	
 	public InetAddress get_Address() {
 		return this.addressUser;
-	}
-	
+	}	
 	public int get_Port() {
 		return this.portServerUser;
 	}
-	
-	
 	public boolean get_StatusConnec() {
 		return this.connected;
 	}
+
 	
 	
 	public Client get_Client() {
@@ -104,17 +97,19 @@ public class User {
 	
 	
 
-	
+
 
 
 	
 	//Shut down the system
 	public void disconnect() throws Exception {
+
 		System.out.println("La session de"+this.pseudo+" est fini");
 		this.server.closeAll();
 		this.client.closeAll();
 		this.connected=false ; //A déplacer après le BC
 	}
+
 
 
 }

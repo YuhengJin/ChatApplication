@@ -3,11 +3,9 @@ package Application;
 import java.net.InetAddress;
 import java.net.Socket;
 
-
 public class Main_Test {
 
-	public static void main(String[] args) throws Exception {
-		
+	public static void main(String[] args) throws Exception {	
 		/*
 		 * La partie connection TCP entre server et client
 		 */
@@ -43,10 +41,11 @@ public class Main_Test {
 		System.out.println(name + " is running" + " listeningport "+ port);
 		u.initrceivemessage();
 		u.multicast("newuser/" + name + "/" + Integer.toString(port));
+	
 		
+
 		
-		
-		
+
 		String name2="Nico"; int port2 =2026;
 		Chat u2 = new Chat(name2, port2);
 		System.out.println(name2 + " is running" + " listeningport "+ port2);
@@ -55,17 +54,5 @@ public class Main_Test {
 		
 		
 		
-		
-		//u.getServer().sendMesFromServer("00000000000");
-		
-		
-		
-		
-		
-
-
 	}
-		
-		
-
 }

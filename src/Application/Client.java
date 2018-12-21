@@ -24,12 +24,15 @@ public class Client {
 	private BufferedReader inputBuff;
 	private InetAddress address;
 	private User user;
+
 	private Chat chat;
 	Dialogue d;
 	
 
 	public Client(int numPort) {
+
 			this.port = numPort;
+			
 	}
 	
 	public Client(InetAddress address,int numPort) {
@@ -56,7 +59,7 @@ public class Client {
 			//System.out.println("Port CLient est "+this.port);
 			//socket = new Socket("127.0.0.1",this.port);
 			// 60s超时
-            socket.setSoTimeout(60000);
+            //socket.setSoTimeout(60000);
 			
 			/*System.out.println("==============");
 			System.out.println("====="+socket.getInetAddress().toString());
@@ -70,7 +73,7 @@ public class Client {
 			this.lsmThread.start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (IOException e) { 
 			e.printStackTrace();
 		}
 		
@@ -89,7 +92,6 @@ public class Client {
 		
 		this.out.println(mes);
 	    this.out.flush();
-	    System.out.println("client send msg : " + mes);
 	    if(mes.equals("ExpediteurFinishChat")) {
 	    	closeAll();
 	    }
@@ -99,6 +101,10 @@ public class Client {
 	public int getPortClient() {
 		return socket.getLocalPort();
 	}
+	
+	/*public String getname() {
+		return this.pseudo ;
+	}*/
 	
 	public void closeAll() {
 		try {
@@ -131,11 +137,13 @@ public class Client {
 						break;
 					}else {
 						
+
 						d.showmessagerecu(user.get_Name() + " to "
 								+ chat.getUserName()+ " : " + result);
 						System.out.println("Recu[CLient] Server say :    " + result);
+
 				
-					}
+					} 
 
 				}
 			
@@ -169,28 +177,8 @@ public class Client {
 	}*/
 	
 	
-	
-	/*public static void main(String[] args) {
-		Client c1 = new Client(1502);// 启动客户端
-		//System.out.println("Client[port: Connection with the server...");
-		c1.startClient();	
-		c1.sendMessage("Hello server! I'm UserC1 "+ c1.getPortClient());
-		
-	}*/
-	
-	
-	
-	
-	
-	
+
 	
 	
 }
-	
-
-
-
-
-
-
 
