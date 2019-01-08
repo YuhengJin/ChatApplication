@@ -313,23 +313,23 @@ public class Chat {
 	
 	
 	
-	// faire chat avec quequn
+	// faire chat avec quelqun
 	public void chatWithOne(String nom) {
 
 		int destinationport = 0;
 		for (User user : users.getUsers()) {
-
 			if (user.get_Name().equals(nom)) {
 				destinationport = user.get_Port();
 			}
 		}
-
+		
+		System.out.println("Test3+++++++++++++++  destination port"+destinationport);
+		
 		if (destinationport != 0) {
 			Session s;
 			try {
 				s = new Session(InetAddress.getByName("localhost"), destinationport);
 				s.sendmesssage("*chat/" + username + "/" + listeningport);
-
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}

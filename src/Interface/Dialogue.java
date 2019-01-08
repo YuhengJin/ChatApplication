@@ -49,13 +49,17 @@ public class Dialogue {
 		});	*/
 		
 	}
+	
+	
+	public String getType() {
+		return this.typeString;
+	}
 		
 		
 	
 	
 	
 	public  void showmessagerecu(String mes) {
-		
 		his = his + mes + "\n";
 		graphique.get_jtaReceivedMessage().setText(his);
 		

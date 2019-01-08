@@ -102,7 +102,9 @@ public class Server {
 		}
 
 		public void run() {
-			Dialogue d = new Dialogue();
+			Dialogue d = new Dialogue(chat,user,"Server");
+			
+			
 			int flag = 0;
 			super.run();
 			String result = null;

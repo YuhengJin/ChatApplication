@@ -35,6 +35,7 @@ import java.awt.Color;
 
 public class Graphique extends JFrame{
 	private static JPanel contentPane;
+	private Dialogue dialogue = new Dialogue();
 	static Graphique frame;
 	private String pseudo;
 	private int port;
@@ -279,27 +280,32 @@ public class Graphique extends JFrame{
 				// TODO Auto-generated method stub
 
 				String name = defaultListModel.getElementAt(clientList.getSelectedIndex());
+				System.out.println("/n Test1=================avec qui "+name);
 				chat.chatWithOne(name);
+				
 				Application.User nu = null;
 				for (Application.User ou : chat.getUsers().getUsers()) {
-
 					if (ou.get_Name().equals(name)) {
 						nu = ou;
 					}
-
 				}
+				
+				String typeString = dialogue.getType();
+				System.out.println("/n Test2================= get the type"+typeString);
 				
 				
 				String info = jtaSendMessage.getText();
 				his = his + chat.getUserName() + " to " + nu.get_Name() + ":  "
 						+ info + "\n";
 				jtaReceivedMessage.setText(his);
-				/*if (typeString.equals("Server")) {
+				
+				
+				if (typeString.equals("Server")) {
 					chat.getServer().sendMesFromServer(info);
+					System.out.println("Test4   ***************************");
 				} else if (typeString.equals("Client")) {
 					chat.getClient().sendMessage(info);
-				}*/
-
+				}
 			}
 		});
 		
