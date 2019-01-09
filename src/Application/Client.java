@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import Interface.Dialogue;
@@ -20,12 +21,22 @@ public class Client {
 	private ListenServerMes lsmThread;
 	private Socket socket;
 	private int port;
+	public int getPort() {
+		return port;
+	}
+
+	public InetAddress getAddress() {
+		return address;
+	}
+
+	
+
 	private PrintWriter out;
 	private BufferedReader inputBuff;
 	private InetAddress address;
 	private User user;
 
-	private Chat chat;
+	Chat chat;
 	Dialogue d;
 	
 
@@ -45,17 +56,15 @@ public class Client {
 		this.port = numPort;
 		this.user = u;
 		this.chat =c;
-		
-		
 	}
 	
 	public void startClient() {
 		try {
 			
-		
+			this.out = null;
 			d = new Dialogue(chat, user, "Client");
 			
-			socket = new Socket(this.address,this.port);
+			
 			//System.out.println("Port CLient est "+this.port);
 			//socket = new Socket("127.0.0.1",this.port);
 			// 60s超时
@@ -66,7 +75,8 @@ public class Client {
 			System.out.println(socket.getLocalAddress().toString());*/
 			
 			
-			this.out =new PrintWriter(socket.getOutputStream(),true);
+			//socket = new Socket("localhost",this.port);
+			//this.out =new PrintWriter(socket.getOutputStream(),true);
 			this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
 			this.lsmThread= new  ListenServerMes();
@@ -89,18 +99,35 @@ public class Client {
 		System.out.println("++++"+socket.getInetAddress().toString());
 		System.out.println(socket.getLocalAddress().toString());*/
 		
+		try {
+			socket = new Socket("localhost",this.port);
+			this.out =new PrintWriter(socket.getOutputStream(),true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		this.out.println(mes);
-	    this.out.flush();
-	    if(mes.equals("ExpediteurFinishChat")) {
-	    	closeAll();
+		if (out == null)
+	    {
+	          throw new NullPointerException("Out is null.");
 	    }
-
+	    
+			
+			//this.out =new PrintWriter(socket.getOutputStream(),true);
+			this.out.println(mes);
+		    this.out.flush();
+		    if(mes.equals("ExpediteurFinishChat")) {
+		    	closeAll();
+		
+		    }
+	    System.out.println("client send msg : " + mes);
 	}
 	
 	public int getPortClient() {
 		return socket.getLocalPort();
 	}
+	
+	
 	
 	/*public String getname() {
 		return this.pseudo ;

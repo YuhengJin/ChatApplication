@@ -28,14 +28,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import Application.Chat;
-
+import Application.User;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
 
 public class Graphique extends JFrame{
 	private static JPanel contentPane;
-	private Dialogue dialogue = new Dialogue();
+	//Dialogue dialogue;
 	static Graphique frame;
 	private String pseudo;
 	private int port;
@@ -51,6 +51,30 @@ public class Graphique extends JFrame{
 	private static JList<String> clientList;
 	private static Chat chat;
 	private	static String his = "";
+	private String typeGra="";
+	private Chat chatGra;
+	private User userGra;
+	
+	
+	public void setTypeGra(String a) {
+		typeGra = a;
+	}
+	
+	public String getTypeGra() {
+		return typeGra;
+	}
+	
+	public void setChatGra(Chat a ) {
+		chatGra = a;
+	}
+	
+	public Graphique(Chat a, User b,String c) {
+		this.chatGra = a;
+		this.userGra = b;
+		this.typeGra = c;
+		
+	}
+	
 	
 	
 	
@@ -82,7 +106,8 @@ public class Graphique extends JFrame{
 		//Panel login
 		JPanel panel_login = new JPanel();
 		panel_login.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//Panel chat
+		//Panel chat		this.chatGra = a;
+
 		final CardLayout cardLayout = (CardLayout) contentPane.getLayout();
 		final JPanel panel_chat = new JPanel();
 
@@ -280,6 +305,12 @@ public class Graphique extends JFrame{
 				// TODO Auto-generated method stub
 
 				String name = defaultListModel.getElementAt(clientList.getSelectedIndex());
+				if(name.equals(null)) {
+					JOptionPane
+					.showMessageDialog(null,
+							"Warning : Please select at least a user to make a discussion!");
+				}
+				
 				System.out.println("/n Test1=================avec qui "+name);
 				chat.chatWithOne(name);
 				
@@ -290,22 +321,56 @@ public class Graphique extends JFrame{
 					}
 				}
 				
-				String typeString = dialogue.getType();
-				System.out.println("/n Test2================= get the type"+typeString);
+				
+				//String typeString = dialogue.getType();
+				//System.out.println("/n Test2================= get the type"+typeString);
+				//System.out.println("/n Test2================= get the type"+dialogue.getType());
 				
 				
 				String info = jtaSendMessage.getText();
 				his = his + chat.getUserName() + " to " + nu.get_Name() + ":  "
 						+ info + "\n";
+				System.out.println("/n Test2==================== get message"+his);
 				jtaReceivedMessage.setText(his);
 				
 				
-				if (typeString.equals("Server")) {
-					chat.getServer().sendMesFromServer(info);
-					System.out.println("Test4   ***************************");
-				} else if (typeString.equals("Client")) {
-					chat.getClient().sendMessage(info);
+				//chat.getClient().getPortClient();
+				//chat.getServer().sendMesFromServer(info);
+				
+				
+				for(int i=0;i<1000;i++) {
+					System.out.println("浪费时间");
 				}
+				
+				chat.getClient().sendMessage(info);;
+				
+				/*System.out.println("Test5 ======================"+Dialogue.typeString);
+				
+				if (Dialogue.typeString.equals("Server")) {
+					System.out.println("/n Test4  ================");
+					chat.getServer().sendMesFromServer(info);
+				} else if (Dialogue.typeString.equals("Client")) {
+					System.out.println("Test7=====================CLient send");
+					chat.getClient().sendMessage(info);
+				
+				}*/
+				
+				
+				/*boolean value = true;
+				while (value) {
+					System.out.println("/n Test8  =====================");
+					if (typeGra.equals("Server")) {
+						System.out.println("/n Test4  ================");
+						chatGra.getServer().sendMesFromServer(info);
+						value = false;
+					} else if (typeGra.equals("Client")) {
+						System.out.println("Test7=====================CLient send");
+						chatGra.getClient().sendMessage(info);
+						value = false;
+					}else {
+						value = true;
+					}
+				}*/
 			}
 		});
 		
@@ -314,6 +379,12 @@ public class Graphique extends JFrame{
 		//Global
 		contentPane.add(panel_login, "login");
 		contentPane.add(panel_chat, "chat");
+	}
+	
+	
+	public  void showmessagerecu(String mes) {
+		his = his + mes + "\n";
+		this.jtaReceivedMessage.setText(his);
 	}
 	
 	

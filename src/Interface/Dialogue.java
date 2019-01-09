@@ -14,20 +14,30 @@ import Application.User;
 
 public class Dialogue {
 	
-	private Chat chat;
-	private User ou;
+	public Chat chatDia;
+	public static User ouDia;
 	private	String his = "";
 	private Graphique graphique;
 	
-	private String typeString = "";
+	public static String typeString = "";
 	
 	
 	
 	public Dialogue(Chat u1, User u2, String type) {
 
-		chat = u1;
-		ou = u2;
+		chatDia = u1;
+		ouDia = u2;
 		typeString = type;
+		
+		graphique =new Graphique(u1,u2,type);
+		
+		
+		
+		
+		
+		//System.out.println("Test 5=========================a new Dialogue  type is "+type);
+		//System.out.println("Test6=============================typeGra is "+graphique.getTypeGra());
+		
 		//setTitle(chat.getUserName() + " chatting with " + ou.get_Name());
 		
 		
@@ -51,9 +61,6 @@ public class Dialogue {
 	}
 	
 	
-	public String getType() {
-		return this.typeString;
-	}
 		
 		
 	
@@ -61,8 +68,7 @@ public class Dialogue {
 	
 	public  void showmessagerecu(String mes) {
 		his = his + mes + "\n";
-		graphique.get_jtaReceivedMessage().setText(his);
-		
+		Graphique.frame.get_jtaReceivedMessage().setText(his);
 	}
 	
 	

@@ -54,6 +54,7 @@ public class Server {
 
 					while (true) {
 						link= socket.accept();
+						pseudo = chat.getUserName();
 					    System.out.println("["+pseudo+": Waiting for someone to connect ...]");
 						cThread = new CommunicateThread(link);
 						cThread.start();
@@ -102,7 +103,7 @@ public class Server {
 		}
 
 		public void run() {
-			Dialogue d = new Dialogue(chat,user,"Server");
+			Dialogue d = new Dialogue();
 			
 			
 			int flag = 0;
@@ -113,7 +114,7 @@ public class Server {
 				while ((result = inputBuff.readLine()) != null) {
 					if (result.equals("bye server")) {
 						System.out.println("Capter le     ExpediteurFinishChat");
-						// chat.getUsers().remove(user);
+						//chat.getUsers().remove(user);
 						inputBuff.close();
 						out.close();
 						link.close();

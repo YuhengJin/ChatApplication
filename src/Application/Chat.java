@@ -214,17 +214,17 @@ public class Chat {
 
 						// receive response for chat
 						if (info.startsWith("*re")) {
-							System.out.println(111);
+							System.out.println("\n"+"收到聊天请求     准备启动  client");
 							String username = info.split("/")[1];
 							String chatport = info.split("/")[2];
 							// distribuer a new port for chatting
 							User u = new User(username,InetAddress.getByName("localhost"),Integer.parseInt(chatport));
 							
 							
-							u.connecter(Integer.parseInt(chatport));
+							//u.connecter(Integer.parseInt(chatport));
 							
-							//client = new Client(Integer.parseInt(chatport), u, me);
-							//client.startClient();
+							client = new Client(Integer.parseInt(chatport), u, me);
+							client.startClient();
 
 						}
 						// if there is new user
@@ -313,7 +313,7 @@ public class Chat {
 	
 	
 	
-	// faire chat avec quelqun
+	// faire chat avec quelqun  dire a tout le mode on va chat
 	public void chatWithOne(String nom) {
 
 		int destinationport = 0;
@@ -367,6 +367,7 @@ public class Chat {
 	}
 	
 	public Client getClient() {
+		System.out.println("Test10--------------------是否真的  get client"+client.getPort());
 		return client;
 	}
 
