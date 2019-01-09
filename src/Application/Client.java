@@ -59,7 +59,7 @@ public class Client {
 	}
 	
 	public void startClient() {
-		try {
+		
 			
 			this.out = null;
 			d = new Dialogue(chat, user, "Client");
@@ -77,15 +77,16 @@ public class Client {
 			
 			//socket = new Socket("localhost",this.port);
 			//this.out =new PrintWriter(socket.getOutputStream(),true);
-			this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			//this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
 			this.lsmThread= new  ListenServerMes();
 			this.lsmThread.start();
-		} catch (UnknownHostException e) {
+		
+		/*catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) { 
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 	}
@@ -152,6 +153,13 @@ public class Client {
 	public class ListenServerMes extends Thread {
 		@Override
 		public void run() {
+			try {
+				inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			super.run();
 			String result = null;
 			try {
