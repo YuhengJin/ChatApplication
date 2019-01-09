@@ -68,6 +68,19 @@ public class Server {
 	}
 	
 	public void sendMesFromServer(String message) {
+		//out = new PrintWriter(socket2.getOutputStream(), true);
+		
+		try {
+			out = new PrintWriter(link.getOutputStream(), true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (out == null)
+	    {
+	          throw new NullPointerException("Out is null.");
+	    }
+		
 		this.out.println(message);
 	    this.out.flush();
 	    if(message.equals("ServerFinishChat")) {
@@ -95,7 +108,7 @@ public class Server {
 			System.out.println("[Nouvelle abonnement à "+pseudo+" de la part de "+s.getPort()+"]") ;
 			socket2 = s;
 			try {
-				out = new PrintWriter(socket2.getOutputStream(), true);
+				//out = new PrintWriter(socket2.getOutputStream(), true);
 				inputBuff = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
 			} catch (IOException e) {
 				e.printStackTrace();
