@@ -74,19 +74,19 @@ public class Client {
 			System.out.println("====="+socket.getInetAddress().toString());
 			System.out.println(socket.getLocalAddress().toString());*/
 			
-			
-			//socket = new Socket("localhost",this.port);
-			//this.out =new PrintWriter(socket.getOutputStream(),true);
-			//this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		try {
+			socket = new Socket("localhost",this.port);
+			this.out =new PrintWriter(socket.getOutputStream(),true);
+			this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
 			this.lsmThread= new  ListenServerMes();
 			this.lsmThread.start();
 		
-		/*catch (UnknownHostException e) {
+		}catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) { 
 			e.printStackTrace();
-		}*/
+		}
 		
 		
 	}

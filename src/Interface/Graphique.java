@@ -50,7 +50,7 @@ public class Graphique extends JFrame{
 	private static DefaultListModel<String> defaultListModel;
 	private static JList<String> clientList;
 	private static Chat chat;
-	private	static String his = "";
+	private	String his = "";
 	private String typeGra="";
 	private Chat chatGra;
 	private User userGra;
@@ -304,12 +304,16 @@ public class Graphique extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				String name = defaultListModel.getElementAt(clientList.getSelectedIndex());
-				if(name.equals(null)) {
+				if(clientList.getSelectedIndex()==-1) {
 					JOptionPane
 					.showMessageDialog(null,
 							"Warning : Please select at least a user to make a discussion!");
 				}
+				
+				
+				
+				String name = defaultListModel.getElementAt(clientList.getSelectedIndex());
+				
 				
 				System.out.println("/n Test1=================avec qui "+name);
 				chat.chatWithOne(name);
@@ -339,12 +343,12 @@ public class Graphique extends JFrame{
 				
 				
 				for(int i=0;i<500;i++) {
-					System.out.println("浪费时间");
+					System.out.println("CHILL OUT");
 				}
 				
 				//chat.getClient().sendMessage(info);;
 				
-				System.out.println("Test5 ======================"+Dialogue.typeString);
+				/*System.out.println("Test5 ======================"+Dialogue.typeString);
 				
 				if (Dialogue.typeString.equals("Server")) {
 					System.out.println("/n Test4  ================");
@@ -352,7 +356,11 @@ public class Graphique extends JFrame{
 				} else if (Dialogue.typeString.equals("Client")) {
 					System.out.println("Test7=====================CLient send");
 					chat.getClient().sendMessage(info);
-				}
+				}*/
+				
+				chat.getClient().sendMessage(info);
+				jtaSendMessage.setText("");
+				
 				
 				
 				/*boolean value = true;
@@ -386,6 +394,27 @@ public class Graphique extends JFrame{
 		this.jtaReceivedMessage.setText(his);
 	}
 	
+	
+	public static void showmessage(String mes) {
+		if(mes.equals("user alreay exsits!")) {
+			JOptionPane
+			.showMessageDialog(null,
+					"Warning : Please select availible username!");
+			frame.setTitle("User OFFLINE ");
+			chat.closeuser();
+		}else {
+			JOptionPane
+			.showMessageDialog(null,
+					"Warning : Please select a availible port!");
+			frame.setTitle("User OFFLINE ");
+			chat.closeuser();
+		}
+		try {
+			chat.broadcastmessage("quit*/" + chat.getUserName() + "/" + chat.getListeningport());
+		} catch (NullPointerException e1) {
+			frame.dispose();
+		}
+	}
 	
 	
 	public static void freshlist() {

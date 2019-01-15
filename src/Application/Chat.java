@@ -241,16 +241,16 @@ public class Chat {
 
 						}
 
-						/*if (info.split("/")[0].equals("samename")) {
+						if (info.split("/")[0].equals("samename")) {
 							// represent this name is already used
-							Display.showmessage("user alreay exsits!");
+							Graphique.showmessage("user alreay exsits!");
 						}
 
 						if (info.split("/")[0].equals("sameport")) {
 							// represent this name is already used
 							Graphique.showmessage("port is alreay used!");
 
-						}*/
+						}
 					}
 
 				} catch (IOException e) {
