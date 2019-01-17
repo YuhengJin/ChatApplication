@@ -177,6 +177,7 @@ public class Chat {
 						ds.receive(dp);
 						byte[] data = dp.getData();
 						String info = new String(data).trim();
+						InetAddress clientAdress=dp.getAddress();
 						
 						System.out.println("Message recu :       "+info);
 						// if request for chat, on lui envoi une confirmation de notre cote et lance le server
@@ -188,14 +189,14 @@ public class Chat {
 							int chatport = listeningport + 1000;
 							// commencer listening this port
 
-							User u = new User(name,InetAddress.getByName("localhost"),Integer.parseInt(port));
+							User u = new User(name,clientAdress,Integer.parseInt(port));
 							
 							server = new Server(chatport, u, me);
 							server.Startlistenning();
 
 							try {
 
-								Session s = new Session(InetAddress.getByName("localhost"),Integer.parseInt(port));
+								Session s = new Session(clientAdress,Integer.parseInt(port));
 								s.sendmesssage("*re/" + username + "/"+ chatport);
 								
 							} catch (Exception e) {
@@ -221,12 +222,12 @@ public class Chat {
 							String username = info.split("/")[1];
 							String chatport = info.split("/")[2];
 							// distribuer a new port for chatting
-							User u = new User(username,InetAddress.getByName("localhost"),Integer.parseInt(chatport));
+							User u = new User(username,clientAdress,Integer.parseInt(chatport));
 							
 							
 							//u.connecter(Integer.parseInt(chatport));
 							
-							client = new Client(Integer.parseInt(chatport), u, me);
+							client = new Client(Integer.parseInt(chatport), u, me,clientAdress);
 							client.startClient();
 
 						}
@@ -321,9 +322,11 @@ public class Chat {
 	public void chatWithOne(String nom) {
 
 		int destinationport = 0;
+		InetAddress clientAdress = null;
 		for (User user : users.getUsers()) {
 			if (user.get_Name().equals(nom)) {
 				destinationport = user.get_Port();
+				clientAdress = user.get_Address();
 			}
 		}
 		
@@ -331,12 +334,9 @@ public class Chat {
 		
 		if (destinationport != 0) {
 			Session s;
-			try {
-				s = new Session(InetAddress.getByName("localhost"), destinationport);
-				s.sendmesssage("*chat/" + nom + "/" + listeningport);
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
+			//s = new Session(InetAddress.getByName("localhost"), destinationport);
+			s = new Session(clientAdress, destinationport);
+			s.sendmesssage("*chat/" + nom + "/" + listeningport);
 
 		}
 

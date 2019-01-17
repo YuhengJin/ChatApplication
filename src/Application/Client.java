@@ -52,10 +52,11 @@ public class Client {
 	}
 	
 	
-	public Client(int numPort,User u,Chat c) {
+	public Client(int numPort,User u,Chat c,InetAddress address) {
 		this.port = numPort;
 		this.user = u;
 		this.chat =c;
+		this.address = address;
 	}
 	
 	public void startClient() {
@@ -75,7 +76,7 @@ public class Client {
 			System.out.println(socket.getLocalAddress().toString());*/
 			
 		try {
-			socket = new Socket("localhost",this.port);
+			socket = new Socket(this.address,this.port);
 			this.out =new PrintWriter(socket.getOutputStream(),true);
 			this.inputBuff =new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
