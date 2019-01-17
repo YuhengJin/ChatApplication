@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import Application.Server.CommunicateThread;
+import Interface.Dialogue;
 import Interface.Graphique;
 import Session.Session;
 
@@ -210,8 +211,9 @@ public class Chat {
 							String msg = info.split("/")[2];
 
 							// distribuer a new port for chatting
-							//Display.showmessage(name + "send you a message:\n"
-							//		+ msg);
+							Dialogue dialogue = new Dialogue();
+							dialogue.showmessagerecu(name + "send you a message:\n"
+									+ msg);
 							// commencer listening this port
 
 						}
@@ -275,11 +277,7 @@ public class Chat {
 
 	}
 	
-	
-	
 
-	
-	
 
 	// Groupechat message
 	public void groupechat(String name, String msg) {
@@ -302,19 +300,6 @@ public class Chat {
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -1,5 +1,6 @@
 package Interface;
 
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
@@ -42,6 +43,7 @@ public class Graphique extends JFrame{
 	private String pseudo;
 	private int port;
 	private JButton btnDmarrerChat;
+	private JButton btngroupechat;
 	private JTextField textField_port;
 	private JTextField textField_pass;
 	private JTextField textField_name;
@@ -249,6 +251,11 @@ public class Graphique extends JFrame{
 		btnDmarrerChat.setVisible(true);
 		
 		
+		btngroupechat = new JButton("Groupe Chat");
+		btngroupechat.setBounds(35, 322, 112, 35);
+		panel_chat.add(btngroupechat);
+		btngroupechat.setVisible(true);
+		
 		
 		
 		
@@ -297,6 +304,38 @@ public class Graphique extends JFrame{
 		JScrollPane jpReceivedMessage = new JScrollPane(jtaReceivedMessage);
 		jpReceivedMessage.setBounds(340, 40, 250, 320);
 		panel_chat.add(jpReceivedMessage);
+		
+		// groupe chat
+		btngroupechat.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+				ArrayList<String> selectuserList = (ArrayList<String>) clientList.getSelectedValuesList();
+
+				if (selectuserList.size() <= 1) {
+					JOptionPane.showMessageDialog(null, "please select  at least two users to establer a group!");
+
+				} else {
+					// init the address of multigroupe
+
+					for (String name : selectuserList) {
+						chat.groupechat(name, jtaSendMessage.getText());
+					}
+
+				}
+
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		// commence un nouveau chat
