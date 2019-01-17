@@ -90,6 +90,7 @@ public class Chat {
 									users.getUsers().add(newuser);
 									Graphique.freshlist();
 									users.printUserConnecte();
+									Graphique.freshlist();
 
 									session.sendmesssage("newuser/" + username+ "/"+ Integer.toString(listeningport));
 
@@ -176,7 +177,9 @@ public class Chat {
 						ds.receive(dp);
 						byte[] data = dp.getData();
 						String info = new String(data).trim();
-						// request for chat
+						
+						System.out.println("Message recu :       "+info);
+						// if request for chat, on lui envoi une confirmation de notre cote et lance le server
 						if (info.split("/")[0].equals("*chat")) {
 
 							String name = info.split("/")[1];
@@ -238,6 +241,7 @@ public class Chat {
 							
 							System.out.println("For  "+username+"端 the user en ligne");
 							users.printUserConnecte();
+							Graphique.freshlist();
 
 						}
 
@@ -313,7 +317,7 @@ public class Chat {
 	
 	
 	
-	// faire chat avec quelqun  dire a tout le mode on va chat
+	// Envoyer au destinataire,on va char avec lui  (*chat+....)
 	public void chatWithOne(String nom) {
 
 		int destinationport = 0;
@@ -329,7 +333,7 @@ public class Chat {
 			Session s;
 			try {
 				s = new Session(InetAddress.getByName("localhost"), destinationport);
-				s.sendmesssage("*chat/" + username + "/" + listeningport);
+				s.sendmesssage("*chat/" + nom + "/" + listeningport);
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}
@@ -367,6 +371,13 @@ public class Chat {
 	}
 	
 	public Client getClient() {
+		System.out.println("Test11--------------------是否真的  get client");
+		while(client==null) {
+			
+		}
+		
+		
+		
 		System.out.println("Test10--------------------是否真的  get client"+client.getPort());
 		return client;
 	}

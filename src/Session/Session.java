@@ -15,7 +15,6 @@ public class Session {
 	public Session(InetAddress i, int rt1) {
 		desti = i;
 		port = rt1;
-
 	}
 	
 	

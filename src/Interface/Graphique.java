@@ -31,6 +31,8 @@ import Application.Chat;
 import Application.User;
 
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.Color;
 
 public class Graphique extends JFrame{
@@ -157,7 +159,7 @@ public class Graphique extends JFrame{
 
 				System.out.println(name);
 				System.out.println(port);
-				jtfPort.setText(String.valueOf(port));
+				jtfPort.setText(String.valueOf(port));	
 			
 				chat = new Chat(name, port);
 				System.out.println(name + " is running" + " listeningport " + port);
@@ -315,7 +317,7 @@ public class Graphique extends JFrame{
 				String name = defaultListModel.getElementAt(clientList.getSelectedIndex());
 				
 				
-				System.out.println("/n Test1=================avec qui "+name);
+				System.out.println("/n Test1  On veut caht avec =================avec qui "+name);
 				chat.chatWithOne(name);
 				
 				Application.User nu = null;
@@ -342,9 +344,9 @@ public class Graphique extends JFrame{
 				//chat.getServer().sendMesFromServer(info);
 				
 				
-				for(int i=0;i<500;i++) {
+				/*for(int i=0;i<500;i++) {
 					System.out.println("CHILL OUT");
-				}
+				}*/
 				
 				//chat.getClient().sendMessage(info);;
 				
@@ -416,11 +418,19 @@ public class Graphique extends JFrame{
 		}
 	}
 	
+
+	
+	
+	
+	
 	
 	public static void freshlist() {
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++");
+		//defaultListModel.clear();
+		
+		System.out.println("******Try to freshlist dans l'interface******");
+		
 		ArrayList<String> usernamelist = new ArrayList<String>();
-		chat.getUsers().printUserConnecte();
+		//chat.getUsers().printUserConnecte();
 		
 		for (Application.User u : chat.getUsers().getUsers()) {
 			usernamelist.add(u.get_Name());

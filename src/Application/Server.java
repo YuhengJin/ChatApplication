@@ -37,8 +37,8 @@ public class Server {
 	
 	public Server(int numPort, User u, Chat c) {
 		this.port = numPort;
-		this.user = u;
-		this.chat = c;
+		this.user = u;    //The user qui veut connecter
+		this.chat = c;   //Lui meme
 	}
 	
 	
@@ -110,6 +110,11 @@ public class Server {
 			try {
 				out = new PrintWriter(socket2.getOutputStream(), true);
 				inputBuff = new BufferedReader(new InputStreamReader(socket2.getInputStream()));
+				if(inputBuff==null) {
+					System.out.println("[can't get the inputBuff]");
+				}
+				
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -134,14 +139,14 @@ public class Server {
 						break;
 					} else {
 
-						if (flag++ == 0) { // La 1er fois on connecte
+						/*if (flag == 0) { // La 1er fois on connecte
 
-							System.out.println("La premiere fois" + user.get_Name() + "on connecte");
+							System.out.println("La premiere fois  " + user.get_Name() + "  on connecte");
 
 							d = new Dialogue(chat, user, "Server");
 							d.showmessagerecu(user.get_Name() + " to " + chat.getUserName() + " : " + result);
-
-						} else {
+							flag++;
+						} else {*/
 							// System.out.println( "------------------"+socket2.getPort());
 							d.showmessagerecu(user.get_Name() + " to " + chat.getUserName() + " : " + result);
 							System.out.println(
@@ -153,7 +158,7 @@ public class Server {
 //						System.out.println(
 //								"To Client[port:" + socket2.getPort() + "] The response to client succes");
 
-						}
+						//}
 
 					}
 
