@@ -121,10 +121,10 @@ public class Server {
 		}
 
 		public void run() {
-			Dialogue d = new Dialogue(chat, user, "Server");
+			//Dialogue d = new Dialogue(chat, user, "Server");
 			
 			
-			int flag = 0;
+			//int flag = 0;
 			super.run();
 			String result = null;
 			try {
@@ -147,7 +147,7 @@ public class Server {
 							flag++;
 						} else {*/
 							// System.out.println( "------------------"+socket2.getPort());
-							d.showmessagerecu(user.get_Name() + " to " + chat.getUserName() + " : " + result);
+							Graphique.showmessagerecu(user.get_Name() + " to " + chat.getUserName() + " : " + result);
 							System.out.println(
 									"Recu[server] Form Client[port:" + socket2.getPort() + "] Content is : " + result);
 							// System.out.println( "-----"+socket2.getPort());

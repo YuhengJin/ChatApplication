@@ -180,13 +180,14 @@ public class Chat {
 						String info = new String(data).trim();
 						InetAddress clientAdress=dp.getAddress();
 						
-						System.out.println("Message recu :       "+info);
+						System.out.println("Message recu :   重点观察    \n  "+info);
 						// if request for chat, on lui envoi une confirmation de notre cote et lance le server
 						if (info.split("/")[0].equals("*chat")) {
 
 							String name = info.split("/")[1];
 							String port = info.split("/")[2];
 							// distribuer a new port for chatting
+							
 							int chatport = listeningport + 1000;
 							// commencer listening this port
 
@@ -211,8 +212,8 @@ public class Chat {
 							String msg = info.split("/")[2];
 
 							// distribuer a new port for chatting
-							Dialogue dialogue = new Dialogue();
-							dialogue.showmessagerecu(name + "send you a message:\n"
+							//Dialogue dialogue = new Dialogue();
+							Graphique.showmessagerecu(name + " send you a Groupe message:\n"
 									+ msg);
 							// commencer listening this port
 
@@ -303,7 +304,7 @@ public class Chat {
 	
 	
 	
-	// Envoyer au destinataire,on va char avec lui  (*chat+....)
+	// Envoyer au destinataire,on va char avec lui  (*chat+author+son port....)
 	public void chatWithOne(String nom) {
 
 		int destinationport = 0;
@@ -317,11 +318,12 @@ public class Chat {
 		
 		System.out.println("Test3+++++++++++++++  destination port"+destinationport);
 		
+		String usernameString = getUserName();
 		if (destinationport != 0) {
 			Session s;
 			//s = new Session(InetAddress.getByName("localhost"), destinationport);
 			s = new Session(clientAdress, destinationport);
-			s.sendmesssage("*chat/" + nom + "/" + listeningport);
+			s.sendmesssage("*chat/" + usernameString + "/" + listeningport);
 
 		}
 
@@ -343,7 +345,7 @@ public class Chat {
 	
 	
 	
-	public String getUserName() {
+	public  String getUserName() {
 		return username;
 	}
 

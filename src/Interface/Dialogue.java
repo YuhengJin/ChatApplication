@@ -66,10 +66,10 @@ public class Dialogue {
 	
 	
 	
-	public  void showmessagerecu(String mes) {
+	/*public  void showmessagerecu(String mes) {
 		his = his + mes + "\n";
 		Graphique.frame.get_jtaReceivedMessage().setText(his);
-	}
+	}*/
 	
 	
 	public  Dialogue() {

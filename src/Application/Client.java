@@ -37,7 +37,7 @@ public class Client {
 	private User user;
 
 	Chat chat;
-	Dialogue d;
+	//Dialogue d;
 	
 
 	public Client(int numPort) {
@@ -63,7 +63,7 @@ public class Client {
 		
 			
 			this.out = null;
-			d = new Dialogue(chat, user, "Client");
+			//d = new Dialogue(chat, user, "Client");
 			
 			
 			//System.out.println("Port CLient est "+this.port);
@@ -172,12 +172,9 @@ public class Client {
 						//d.showmessageialog("the chat is finished");
 						break;
 					}else {
-						
-
-						d.showmessagerecu(user.get_Name() + " to "
+						Graphique.showmessagerecu(user.get_Name() + " to "
 								+ chat.getUserName()+ " : " + result);
 						System.out.println("Recu[CLient] Server say :    " + result);
-
 				
 					} 
 

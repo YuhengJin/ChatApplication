@@ -50,36 +50,18 @@ public class Graphique extends JFrame{
 	private JTextField textField_pass;
 	private JTextField textField_name;
 	private JTextArea jtaSendMessage;
-	private JTextArea jtaReceivedMessage;
+	private static JTextArea jtaReceivedMessage;
 	private JTextField jtfPort;
 	private JTextField jtfIP;
 	private static DefaultListModel<String> defaultListModel;
 	private static JList<String> clientList;
 	private static Chat chat;
-	private	String his = "";
+	private	static String his = "";
 	private String typeGra="";
-	private Chat chatGra;
-	private User userGra;
+	//private Chat chatGra;
+	//private User userGra;
 	
 	
-	public void setTypeGra(String a) {
-		typeGra = a;
-	}
-	
-	public String getTypeGra() {
-		return typeGra;
-	}
-	
-	public void setChatGra(Chat a ) {
-		chatGra = a;
-	}
-	
-	public Graphique(Chat a, User b,String c) {
-		this.chatGra = a;
-		this.userGra = b;
-		this.typeGra = c;
-		
-	}
 	
 	
 	
@@ -322,28 +304,27 @@ public class Graphique extends JFrame{
 				ArrayList<String> selectuserList = (ArrayList<String>) clientList.getSelectedValuesList();
 
 				if (selectuserList.size() <= 1) {
-					JOptionPane.showMessageDialog(null, "please select  at least two users to establer a group!");
+					JOptionPane.showMessageDialog(null, "Please select  at least two users to make a groupe discussion!");
 
 				} else {
-					// init the address of multigroupe
-
+					String namelist = "";
 					for (String name : selectuserList) {
 						chat.groupechat(name, jtaSendMessage.getText());
+						namelist = namelist+" and "+name;
 					}
+					
+					his = his + chat.getUserName() + " to " + namelist  + ":  "
+							+ jtaSendMessage.getText() + "\n";
+					jtaReceivedMessage.setText(his);
+					
+					jtaSendMessage.setText("");
 
 				}
 
 			}
 		});
 		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		// commence un nouveau chat
 		btnDmarrerChat.addActionListener(new ActionListener() {
@@ -437,9 +418,9 @@ public class Graphique extends JFrame{
 	}
 	
 	
-	public  void showmessagerecu(String mes) {
+	public  static void showmessagerecu(String mes) {
 		his = his + mes + "\n";
-		this.jtaReceivedMessage.setText(his);
+		jtaReceivedMessage.setText(his);
 	}
 	
 	
