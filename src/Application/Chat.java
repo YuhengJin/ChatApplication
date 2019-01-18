@@ -12,7 +12,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import Application.Server.CommunicateThread;
-import Interface.Dialogue;
 import Interface.Graphique;
 import Session.Session;
 

@@ -1,4 +1,4 @@
-package Interface;
+/*package Interface;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +41,7 @@ public class Dialogue {
 		//setTitle(chat.getUserName() + " chatting with " + ou.get_Name());
 		
 		
-		/*graphique.get_btnDmarrerChat().addActionListener(new ActionListener() {
+		graphique.get_btnDmarrerChat().addActionListener(new ActionListener() {
 
 	
 			public void actionPerformed(ActionEvent e) {
@@ -56,7 +56,7 @@ public class Dialogue {
 				}
 
 			}
-		});	*/
+		});	
 		
 	}
 	
@@ -66,10 +66,10 @@ public class Dialogue {
 	
 	
 	
-	/*public  void showmessagerecu(String mes) {
+	public  void showmessagerecu(String mes) {
 		his = his + mes + "\n";
 		Graphique.frame.get_jtaReceivedMessage().setText(his);
-	}*/
+	}
 	
 	
 	public  Dialogue() {
@@ -88,3 +88,4 @@ public class Dialogue {
 
 
 
+*/

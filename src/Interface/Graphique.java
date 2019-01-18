@@ -52,6 +52,7 @@ public class Graphique extends JFrame{
 	private JTextArea jtaSendMessage;
 	private static JTextArea jtaReceivedMessage;
 	private JTextField jtfPort;
+	private JTextField jtfPseudo;
 	private JTextField jtfIP;
 	private static DefaultListModel<String> defaultListModel;
 	private static JList<String> clientList;
@@ -84,7 +85,7 @@ public class Graphique extends JFrame{
 		//Global interface
 		setTitle("Imesssager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 430);
+		setBounds(100, 100, 770, 530);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,41 +101,41 @@ public class Graphique extends JFrame{
 		final JPanel panel_chat = new JPanel();
 
 		// Label titre
-		JLabel label_title = new JLabel("Veuillez connecter");
-		label_title.setForeground(Color.DARK_GRAY);
-		label_title.setFont(new Font("Garuda", Font.BOLD | Font.ITALIC, 17));
-		label_title.setBounds(250, 29, 177, 46);
+		JLabel lblBienvenue = new JLabel("Bienvenue");
+		lblBienvenue.setForeground(Color.DARK_GRAY);
+		lblBienvenue.setFont(new Font("Garuda", Font.BOLD | Font.ITALIC, 20));
+		lblBienvenue.setBounds(320, 40, 177, 46);
 		//label_title.setLocation(90, y);;
-		panel_login.add(label_title);
+		panel_login.add(lblBienvenue);
 		
 	
-		JLabel label_name = new JLabel("Username");
-		label_name.setFont(new Font("Bitstream Charter", Font.BOLD, 14));
-		label_name.setBounds(171, 99, 69, 32);
+		JLabel lblUsername = new JLabel("Username:");
+		lblUsername.setFont(new Font("Bitstream Charter", Font.BOLD, 15));
+		lblUsername.setBounds(233, 124, 98, 32);
 		
 		textField_name = new JTextField();
-		textField_name.setBounds(355, 97, 112, 34);
+		textField_name.setBounds(396, 125, 112, 34);
 		textField_name.setColumns(10);
 		panel_login.setLayout(null);
-		panel_login.add(label_name);
+		panel_login.add(lblUsername);
 		panel_login.add(textField_name);
 		
 		
 		
 		JLabel label_pass = new JLabel("Password:");
-		label_pass.setFont(new Font("Bitstream Charter", Font.BOLD, 14));
-        label_pass.setBounds(171,157,80,25);
+		label_pass.setFont(new Font("Bitstream Charter", Font.BOLD, 15));
+        label_pass.setBounds(233,195,80,25);
         panel_login.add(label_pass);
         
         
-		JLabel label_port = new JLabel("N° de port");
-		label_port.setFont(new Font("Bitstream Charter", Font.BOLD, 14));
-		label_port.setBounds(171, 209, 76, 32);
-		panel_login.add(label_port);
+		JLabel lblNDePort = new JLabel("N° de port:");
+		lblNDePort.setFont(new Font("Bitstream Charter", Font.BOLD, 15));
+		lblNDePort.setBounds(233, 259, 76, 32);
+		panel_login.add(lblNDePort);
 		
 		JButton button_connect = new JButton("Se connecter");
 		button_connect.setFont(new Font("Garuda", Font.BOLD, 15));
-		button_connect.setBounds(256, 295, 135, 41);
+		button_connect.setBounds(316, 359, 135, 41);
 		panel_login.add(button_connect);
 		
 		// login
@@ -146,6 +147,7 @@ public class Graphique extends JFrame{
 				System.out.println(name);
 				System.out.println(port);
 				jtfPort.setText(String.valueOf(port));	
+				jtfPseudo.setText(name);	
 			
 				chat = new Chat(name, port);
 				System.out.println(name + " is running" + " listeningport " + port);
@@ -162,13 +164,13 @@ public class Graphique extends JFrame{
 		
 		//No visibal the passeword
 		textField_pass = new JPasswordField();
-		textField_pass.setBounds(355, 154, 112, 34);
+		textField_pass.setBounds(396, 192, 112, 34);
 		textField_pass.setColumns(10);
 		panel_login.add(textField_pass);
 		
 		
 		textField_port = new JTextField();
-		textField_port.setBounds(355, 209, 112, 34);
+		textField_port.setBounds(396, 260, 112, 34);
 		textField_port.setColumns(10);
 		//Input only number
 		textField_port.addKeyListener(new KeyAdapter() {
@@ -200,7 +202,7 @@ public class Graphique extends JFrame{
 		
 		// 设置IPAddress标签
         JLabel jlIP = new JLabel("IPAddress:");
-        jlIP.setBounds(10, 15, 70, 25);
+        jlIP.setBounds(30, 15, 70, 25);
         panel_chat.add(jlIP);
         
 		// 设置IPAddress显示文本
@@ -212,36 +214,47 @@ public class Graphique extends JFrame{
 			e1.printStackTrace();
 		}
 		jtfIP.setEditable(false);
-		jtfIP.setBounds(90, 15, 185, 25);
+		jtfIP.setBounds(118, 15, 187, 25);
 		//jtfIP.setText(Common.IP);
 		panel_chat.add(jtfIP);
 
 		// 设置Port标签
 		JLabel jlPort = new JLabel("Port:");
-		jlPort.setBounds(10, 50, 70, 25);
+		jlPort.setBounds(30, 52, 70, 25);
 		panel_chat.add(jlPort);
 		// 设置Port显示文本
 		jtfPort = new JTextField();
 		//jtfPort.setText("10055");
 		jtfPort.setEditable(false);
-		jtfPort.setBounds(90, 50, 185, 25);
+		jtfPort.setBounds(118, 50, 187, 25);
 		//jtfPort.setText(Common.PORT + "");
 		panel_chat.add(jtfPort);
-
-        
+		
+		// Pseudo
+		JLabel jlPseudo = new JLabel("Pseudo:");
+		jlPseudo.setBounds(30, 89, 70, 25);
+		panel_chat.add(jlPseudo);
+		
+		jtfPseudo = new JTextField();
+		//jtfPort.setText("10055");
+		jtfPseudo.setEditable(false);
+		jtfPseudo.setBounds(118, 91, 100, 25);
+		//jtfPort.setText(Common.PORT + "");
+		panel_chat.add(jtfPseudo);
         
         
         
         
 		
 		btnDmarrerChat = new JButton("Send Message");
-		btnDmarrerChat.setBounds(163, 322, 112, 35);
+		btnDmarrerChat.setBounds(193, 425, 112, 35);
 		panel_chat.add(btnDmarrerChat);
 		btnDmarrerChat.setVisible(true);
 		
 		
 		btngroupechat = new JButton("Groupe Chat");
-		btngroupechat.setBounds(35, 322, 112, 35);
+		btngroupechat.setToolTipText("Please choose at least two users");
+		btngroupechat.setBounds(43, 425, 112, 35);
 		panel_chat.add(btngroupechat);
 		btngroupechat.setVisible(true);
 		
@@ -251,7 +264,8 @@ public class Graphique extends JFrame{
 		
 		//La list user enligne
 		JLabel labellist = new JLabel("Users en ligne ");
-		labellist.setBounds(25, 67, 160, 67);
+		labellist.setFont(new Font("Dialog", Font.BOLD, 13));
+		labellist.setBounds(25, 105, 160, 67);
 		panel_chat.add(labellist);
 		
 		defaultListModel = new DefaultListModel<>();
@@ -262,13 +276,14 @@ public class Graphique extends JFrame{
 
 		// Scroll
 		JScrollPane jpclientList = new JScrollPane(clientList);
-		jpclientList.setBounds(25, 115, 255, 65);
+		jpclientList.setBounds(25, 155, 285, 78);
 		panel_chat.add(jpclientList);
 	
 		
 		// 设置Send Message标签
-        JLabel jlSendMessage = new JLabel("Send Message:");
-        jlSendMessage.setBounds(25, 180, 100, 25);
+        JLabel jlSendMessage = new JLabel("Type Message:");
+        jlSendMessage.setFont(new Font("Dialog", Font.BOLD, 13));
+        jlSendMessage.setBounds(24, 263, 100, 25);
         panel_chat.add(jlSendMessage);
 		// 设置Send Message文本
         jtaSendMessage = new JTextArea();
@@ -277,22 +292,24 @@ public class Graphique extends JFrame{
 
         jtaSendMessage.setBorder(BorderFactory.createLineBorder(Color.black));
         JScrollPane jpSendMessage = new JScrollPane(jtaSendMessage);
-        jpSendMessage.setBounds(25, 210, 255, 100);
+        jpSendMessage.setBounds(25, 290, 285, 100);
         panel_chat.add(jpSendMessage);
         
         // 设置Received Message标签
         JLabel labelReceivedMessage = new JLabel("Chat Messages:");
-        labelReceivedMessage.setBounds(345, 12, 130, 25);
+        labelReceivedMessage.setFont(new Font("Dialog", Font.BOLD, 13));
+        labelReceivedMessage.setBounds(402, 15, 130, 25);
         panel_chat.add(labelReceivedMessage);
+		JScrollPane jpReceivedMessage = new JScrollPane();
+		jpReceivedMessage.setBounds(400, 50, 300, 380);
+		panel_chat.add(jpReceivedMessage);
 		// 设置Received Message文本
 		jtaReceivedMessage = new JTextArea();
+		jpReceivedMessage.setViewportView(jtaReceivedMessage);
 		jtaReceivedMessage.setLineWrap(true);
 		jtaReceivedMessage.setWrapStyleWord(true);
 		jtaReceivedMessage.setEditable(false);
 		jtaReceivedMessage.setBorder(BorderFactory.createLineBorder(Color.black));
-		JScrollPane jpReceivedMessage = new JScrollPane(jtaReceivedMessage);
-		jpReceivedMessage.setBounds(340, 40, 250, 320);
-		panel_chat.add(jpReceivedMessage);
 		
 		// groupe chat
 		btngroupechat.addActionListener(new ActionListener() {
