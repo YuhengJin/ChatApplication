@@ -11,6 +11,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -221,7 +223,12 @@ public class Graphique extends JFrame{
         
 		// 设置IPAddress显示文本
 		jtfIP = new JTextField();
-		jtfIP.setText("127.0.0.1");
+		try {
+			jtfIP.setText(InetAddress.getLocalHost().getHostAddress());
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		jtfIP.setEditable(false);
 		jtfIP.setBounds(90, 15, 185, 25);
 		//jtfIP.setText(Common.IP);
