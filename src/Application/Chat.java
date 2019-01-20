@@ -90,7 +90,7 @@ public class Chat {
 									users.getUsers().add(newuser);
 									Graphique.freshlist();
 									users.printUserConnecte();
-									Graphique.freshlist();
+									//Graphique.freshlist();
 
 									session.sendmesssage("newuser/" + username+ "/"+ Integer.toString(listeningport));
 
@@ -179,7 +179,7 @@ public class Chat {
 						String info = new String(data).trim();
 						InetAddress clientAdress=dp.getAddress();
 						
-						System.out.println("Message recu :   重点观察    \n  "+info);
+						//System.out.println("Message recu :   重点观察    \n  "+info);
 						// if request for chat, on lui envoi une confirmation de notre cote et lance le server
 						if (info.split("/")[0].equals("*chat")) {
 
@@ -244,7 +244,7 @@ public class Chat {
 							
 							System.out.println("For  "+username+"端 the user en ligne");
 							users.printUserConnecte();
-							Graphique.freshlist();
+							//Graphique.freshlist();
 
 						}
 
