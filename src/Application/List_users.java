@@ -22,7 +22,21 @@ public class List_users {
 		
 		//Modification de la liste : Ajout d'un element qui s'est connecté ou deconnection
 		public void add_User(User user) {
+			/*int test=0 ;
+			for (User u : users) {
+				if (u.equals(user)) {
+					test=1 ;
+					System.out.println("Element exist déja ds la liste! test= "+test);		
+				}
+			}
+			if (test==0) {
+				this.users.add(user) ;
+			}	
+			//System.out.println("test= "+test);		
+			System.out.println(user_Owner.get_Name()+"add the user: "+user.get_Name()+"  test= "+test);		*/
 			this.users.add(user) ;
+
+			
 		}
 		
 		public void User_DisConnected(User user) {
@@ -49,7 +63,18 @@ public class List_users {
 			return users;
 		}
 		
+		public void maj_user(String old_pseudo, String new_pseudo) {
+			for (User u : users) {
+				if (u.get_Name().equals(old_pseudo)) {
+					u.maj_pseudo(new_pseudo);
+				}
+			}
+		}
 
+		public void clear_users() {
+			users.clear();
+		}
+		
 
 
 }

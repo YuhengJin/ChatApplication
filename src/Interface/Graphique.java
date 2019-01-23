@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -43,12 +44,17 @@ public class Graphique extends JFrame{
 	//Dialogue dialogue;
 	static Graphique frame;
 	private String pseudo;
+	private String mdp;
 	private int port;
 	private JButton btnDmarrerChat;
 	private JButton btngroupechat;
 	private JTextField textField_port;
+	private JTextField textField_port2;
 	private JTextField textField_pass;
+	private JTextField textField_pass2;
 	private JTextField textField_name;
+	private JTextField textField_name1;
+	private JTextField textField_name2;
 	private JTextArea jtaSendMessage;
 	private static JTextArea jtaReceivedMessage;
 	private JTextField jtfPort;
@@ -99,11 +105,17 @@ public class Graphique extends JFrame{
 
 		final CardLayout cardLayout = (CardLayout) contentPane.getLayout();
 		final JPanel panel_chat = new JPanel();
+		//Panel modif
+		final JPanel panel_modif = new JPanel();
+		
 
+		/****************************** Panel_login ***************************************/
+
+		
 		// Label titre
 		JLabel lblBienvenue = new JLabel("Bienvenue");
 		lblBienvenue.setForeground(Color.DARK_GRAY);
-		lblBienvenue.setFont(new Font("Garuda", Font.BOLD | Font.ITALIC, 20));
+		lblBienvenue.setFont(new Font("Garuda", Font.BOLD | Font.ITALIC, 30));
 		lblBienvenue.setBounds(320, 40, 177, 46);
 		//label_title.setLocation(90, y);;
 		panel_login.add(lblBienvenue);
@@ -114,12 +126,11 @@ public class Graphique extends JFrame{
 		lblUsername.setBounds(233, 124, 98, 32);
 		
 		textField_name = new JTextField();
-		textField_name.setBounds(396, 125, 112, 34);
+		textField_name.setBounds(396, 125, 160, 34);
 		textField_name.setColumns(10);
 		panel_login.setLayout(null);
 		panel_login.add(lblUsername);
 		panel_login.add(textField_name);
-		
 		
 		
 		JLabel label_pass = new JLabel("Password:");
@@ -133,44 +144,146 @@ public class Graphique extends JFrame{
 		lblNDePort.setBounds(233, 259, 76, 32);
 		panel_login.add(lblNDePort);
 		
+		// 设置Port标签 du panel modif
+		JLabel jlPort2 = new JLabel("Port:");
+		jlPort2.setBounds(10, 50, 70, 25);
+		panel_modif.add(jlPort2);
+		// 设置Port显示文本
+		JTextField jtfPort2 = new JTextField();
+		//jtfPort2.setText(String.valueOf(port));
+		jtfPort2.setEditable(false);
+		jtfPort2.setBounds(90, 50, 185, 25);
+		//jtfPort.setText(Common.PORT + "");
+		panel_modif.add(jtfPort2);
+		
 		JButton button_connect = new JButton("Se connecter");
 		button_connect.setFont(new Font("Garuda", Font.BOLD, 15));
-		button_connect.setBounds(316, 359, 135, 41);
+		button_connect.setBounds(400, 320, 160, 41);
 		panel_login.add(button_connect);
+		
+		JButton button_create = new JButton("Créer un compte");
+		button_create.setFont(new Font("Garuda", Font.BOLD, 15));
+		button_create.setBounds(233, 320, 160, 41);
+		panel_login.add(button_create);
 		
 		// login
 		button_connect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String name = textField_name.getText();
-				int port = Integer.parseInt(textField_port.getText());
+				port = Integer.parseInt(textField_port.getText());
+				pseudo = textField_name.getText();
+				mdp = textField_pass.getText();
+				jtfPort.setText(String.valueOf(port));
+				jtfPort2.setText(String.valueOf(port));
+				jtfPseudo.setText(pseudo);
 
-				System.out.println(name);
-				System.out.println(port);
-				jtfPort.setText(String.valueOf(port));	
-				jtfPseudo.setText(name);	
+
 			
-				chat = new Chat(name, port);
-				System.out.println(name + " is running" + " listeningport " + port);
+				//System.out.println("[Valeur de chat_exists de "+pseudo+": "+chat_exists);
+
+				for(int c=0; c<10000000;c++) {}
+				try {
+					chat = new Chat(pseudo, port,mdp,"connexion");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				chat.initrceivemessage();
-				chat.multicast("newuser/" + name + "/" + Integer.toString(port));
-				setTitle("User ["+name+"] ");
+				chat.multicast("connexion/" + name + "/" + Integer.toString(port)+ "/" +mdp);
+				chat.rst_wrongmdp() ;
+				
+				for(int c=0; c<1000000000;c++) {}
+				System.out.println("[Vérif valeur wrongmdp et wrongpseudo "+chat.get_wrongmdp()+" "+chat.get_wrongpseudo()+"]");
+				
+				if (chat.get_wrongmdp()==1) {
+					JOptionPane.showMessageDialog(null,"Wrong password!");
+					frame.setTitle("Tentative de connexion échoué ");
+					cardLayout.show(contentPane, "login");
+				}
+				else if (chat.get_wrongpseudo()==1) {
+					JOptionPane.showMessageDialog(null,"Unfound username!");
+					frame.setTitle("Tentative de connexion échoué ");
+					cardLayout.show(contentPane, "login");
+				}
+				else if (chat.get_wrongpseudo()==1) {
+					JOptionPane.showMessageDialog(null,"Unfound username!");
+					frame.setTitle("Tentative de connexion échoué ");
+					cardLayout.show(contentPane, "login");
+				}
+				else {
+					System.out.println("Nb personnes BDD: "+chat.getUsers().getUsers().size());
 
-				// Gerer le pb de Le meme nom, et le port <1024
-				//Change the display, entry to the second page
-				cardLayout.show(contentPane, "chat");
+					if (chat.getUsers().getUsers().size()==0) {
+						JOptionPane.showMessageDialog(null,"Personne n'est connecté pour vérifier votre mot de passe!");
+						frame.setTitle("Tentative de connexion échoué ");
+						cardLayout.show(contentPane, "login");
+					}
+					else {
+						setTitle("User ["+name+"] ");
+						cardLayout.show(contentPane, "chat");
+					}
+					}
 
+				
 			}
 		});
+					
+			// inscription
+		button_create.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textField_name.getText();
+				port = Integer.parseInt(textField_port.getText());
+				pseudo = textField_name.getText();
+				mdp = textField_pass.getText();
+				jtfPort.setText(String.valueOf(port));
+				jtfPort2.setText(String.valueOf(port));
+				jtfPseudo.setText(pseudo);
+
+
+			
+				//System.out.println("[Valeur de chat_exists de "+pseudo+": "+chat_exists);
+
+				for(int c=0; c<1000000;c++) {}
+				try {
+					chat = new Chat(pseudo, port,mdp,"inscription");
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				System.out.println(name + " is running" + " listeningport " + port);
+				chat.initrceivemessage();
+				chat.multicast("inscription/" + name + "/" + Integer.toString(port)+ "/" +mdp);
+				
+				for(int c=0; c<10000000;c++) {}
+
+				if (chat.get_samename()==1) {
+					showmessage("user alreay exsits!");
+					cardLayout.show(contentPane, "login");
+
+				}
+				else if (chat.get_sameport()==1) {
+					showmessage("port is alreay used!");
+					cardLayout.show(contentPane, "login");
+
+				}
+				else {
+					setTitle("User ["+name+"] ");
+					cardLayout.show(contentPane, "chat");
+
+				}
+				
+			}
+		});
+						
+			
 		
 		//No visibal the passeword
 		textField_pass = new JPasswordField();
-		textField_pass.setBounds(396, 192, 112, 34);
+		textField_pass.setBounds(396, 192, 160, 34);
 		textField_pass.setColumns(10);
 		panel_login.add(textField_pass);
 		
 		
 		textField_port = new JTextField();
-		textField_port.setBounds(396, 260, 112, 34);
+		textField_port.setBounds(396, 260, 160, 34);
 		textField_port.setColumns(10);
 		//Input only number
 		textField_port.addKeyListener(new KeyAdapter() {
@@ -198,6 +311,8 @@ public class Graphique extends JFrame{
 		panel_chat.setLayout(null);
 		
 		
+		/****************************** Panel_chat ***************************************/
+
 		
 		
 		// 设置IPAddress标签
@@ -236,9 +351,8 @@ public class Graphique extends JFrame{
 		panel_chat.add(jlPseudo);
 		
 		jtfPseudo = new JTextField();
-		//jtfPort.setText("10055");
 		jtfPseudo.setEditable(false);
-		jtfPseudo.setBounds(118, 91, 100, 25);
+		jtfPseudo.setBounds(118, 91, 187, 25);
 		//jtfPort.setText(Common.PORT + "");
 		panel_chat.add(jtfPseudo);
         
@@ -246,21 +360,28 @@ public class Graphique extends JFrame{
         
         
 		
-		btnDmarrerChat = new JButton("Send Message");
-		btnDmarrerChat.setBounds(193, 425, 112, 35);
+		btnDmarrerChat = new JButton("Send msg");
+		btnDmarrerChat.setBounds(180, 425, 130, 35);
 		panel_chat.add(btnDmarrerChat);
 		btnDmarrerChat.setVisible(true);
 		
 		
 		btngroupechat = new JButton("Groupe Chat");
 		btngroupechat.setToolTipText("Please choose at least two users");
-		btngroupechat.setBounds(43, 425, 112, 35);
+		btngroupechat.setBounds(25, 425, 140, 35);
 		panel_chat.add(btngroupechat);
 		btngroupechat.setVisible(true);
 		
 		
+		// Modification du pseudo
+		JButton btnModif = new JButton("Modifier pseudo");
+		btnModif.setBounds(400, 435, 155, 35);
+		panel_chat.add(btnModif);
 		
-		
+		// Deconnexion
+		JButton btnDeco = new JButton("Deconnexion");
+		btnDeco.setBounds(560, 435, 138, 35);
+		panel_chat.add(btnDeco);
 		
 		//La list user enligne
 		JLabel labellist = new JLabel("Users en ligne ");
@@ -283,7 +404,7 @@ public class Graphique extends JFrame{
 		// 设置Send Message标签
         JLabel jlSendMessage = new JLabel("Type Message:");
         jlSendMessage.setFont(new Font("Dialog", Font.BOLD, 13));
-        jlSendMessage.setBounds(24, 263, 100, 25);
+        jlSendMessage.setBounds(24, 263, 140, 25);
         panel_chat.add(jlSendMessage);
 		// 设置Send Message文本
         jtaSendMessage = new JTextArea();
@@ -427,11 +548,178 @@ public class Graphique extends JFrame{
 			}
 		});
 		
+		//ButtonModif
+		btnModif.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				setTitle("User ["+pseudo+"] ");
+				// Gerer le pb de Le meme nom, et le port <1024
+				//Change the display, entry to the second page
+				cardLayout.show(contentPane, "modif");
+
+
+			}
+		});
+		
+	
+		//ButtonDeco
+		btnDeco.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				chat.broadcastmessage("quit*/" + chat.getUserName() + "/" + chat.getListeningport());
+				for (int j=0;j<100000000;j++) {}
+				
+				cardLayout.show(contentPane, "login");
+
+
+			}
+		});
+				
+		
+//		chat.broadcastmessage("quit*/" + chat.getUserName() + "/" + chat.getListeningport());
+//		//for (int j=0;j<1000000000;j++) {}
+//
+//		cardLayout.show(contentPane, "login");
+		
+		
+		
+/****************************** Panel_modif ****************************************/
+		
+
+		// Label titre
+		JLabel label_modif = new JLabel("Modification du pseudo");
+		label_modif.setForeground(Color.DARK_GRAY);
+		label_modif.setFont(new Font("Garuda", Font.BOLD | Font.ITALIC, 18));
+		label_modif.setBounds(325, 29, 230, 46);
+		//label_title.setLocation(90, y);;
+		panel_modif.add(label_modif);
+		
+		JLabel label_name1 = new JLabel("Ancien Username");
+		label_name1.setFont(new Font("Bitstream Charter", Font.BOLD, 14));
+		label_name1.setBounds(171, 99, 140, 32);
+		
+		textField_name1 = new JTextField();
+		textField_name1.setBounds(355, 97, 135, 34);
+		textField_name1.setColumns(10);
+		panel_modif.setLayout(null);
+		panel_modif.add(label_name1);
+		panel_modif.add(textField_name1);
+			
+		//New user
+		JLabel label_name2 = new JLabel("Nouveau Username:");
+		label_name2.setFont(new Font("Bitstream Charter", Font.BOLD, 14));
+        label_name2.setBounds(171,157,140,25);
+        panel_modif.add(label_name2);
+        
+		textField_name2 = new JTextField();
+		textField_name2.setBounds(355, 154, 135, 34);
+		textField_name2.setColumns(10);
+		panel_modif.add(textField_name2);
+		
+        //mdp
+		JLabel label_mdp = new JLabel("Mot de passe");
+		label_mdp.setFont(new Font("Bitstream Charter", Font.BOLD, 14));
+		label_mdp.setBounds(171, 209, 140, 32);
+		panel_modif.add(label_mdp);
+		
+		JPasswordField textField_pass2 = new JPasswordField();
+		textField_pass2.setBounds(355, 209, 135, 34);
+		textField_pass2.setColumns(10);
+		panel_modif.add(textField_pass2);
+		
+		JButton button_valider = new JButton("Valider");
+		button_valider.setFont(new Font("Garuda", Font.BOLD, 15));
+		button_valider.setBounds(355, 295, 135, 34);
+		panel_modif.add(button_valider);
+				
+		JButton button_retour = new JButton("Retour");
+		button_retour.setFont(new Font("Garuda", Font.BOLD, 15));
+		button_retour.setBounds(170, 295, 135, 34);
+		panel_modif.add(button_retour);
+				
+		
+		
+		// 设置IPAddress标签
+        JLabel jlIP2 = new JLabel("IPAddress:");
+        jlIP2.setBounds(10, 15, 70, 25);
+        panel_modif.add(jlIP2);
+        
+		// 设置IPAddress显示文本
+		JTextField jtfIP2 = new JTextField();
+		jtfIP2.setText("127.0.0.1");
+		jtfIP2.setEditable(false);
+		jtfIP2.setBounds(90, 15, 185, 25);
+		//jtfIP.setText(Common.IP);
+		panel_modif.add(jtfIP2);
+		
+		
+		// Valider la modif de pseudo
+		button_valider.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				chat.rst_notmodif(); 
+				String name1 = textField_name1.getText();
+				String name2 = textField_name2.getText();
+				String mdp2=String.valueOf(textField_pass2.getPassword());
+
+
+				System.out.println("oldname "+name1);
+				System.out.println("newname "+name2);
+				System.out.println("pseudo :"+pseudo);
+				
+				if (!pseudo.equals(name1)) {
+					System.out.println("old user=new user");
+					JOptionPane.showMessageDialog(null,"Ancien username incorrect!");
+					cardLayout.show(contentPane, "modif");
+
+				}
+				else if (name1.equals(name2)&&pseudo.equals(name1)) {
+					JOptionPane.showMessageDialog(null,"Meme username!");
+					cardLayout.show(contentPane, "modif");
+				}
+				else if (!mdp2.equals(mdp)){
+					JOptionPane.showMessageDialog(null,"Mot de passe incorrect!");
+					cardLayout.show(contentPane, "modif");
+				}
+				else {
+					System.out.println("Envoi modifpseudo");
+					System.out.println("[Valeur de notmodif: "+chat.get_notmodif()+"]");
+
+					chat.broadcastmessage("modif/" + pseudo + "/" + name2 + "/" + port);
+					for (int i=0;i<10000000;i++) {}
+					if (chat.get_notmodif()==0) {
+						pseudo = name2 ;
+						setTitle("User ["+pseudo+"] ");
+						cardLayout.show(contentPane, "chat");
+					}
+					else {
+						JOptionPane.showMessageDialog(null,"Username déja utilisé!");
+						cardLayout.show(contentPane, "modif");
+					}
+				}
+			}
+		});
+		
+		button_retour.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//setTitle("User ["+pseudo+"] ");
+				cardLayout.show(contentPane, "login");
+			}
+		});
+		
 	
 		
 		//Global
 		contentPane.add(panel_login, "login");
 		contentPane.add(panel_chat, "chat");
+		contentPane.add(panel_modif, "modif");
+
 	}
 	
 	
@@ -443,31 +731,23 @@ public class Graphique extends JFrame{
 	
 	public static void showmessage(String mes) {
 		if(mes.equals("user alreay exsits!")) {
-			JOptionPane
-			.showMessageDialog(null,
-					"Warning : Please select availible username!");
-			frame.setTitle("User OFFLINE ");
-			chat.closeuser();
-		}else {
-			JOptionPane
-			.showMessageDialog(null,
-					"Warning : Please select a availible port!");
-			frame.setTitle("User OFFLINE ");
-			chat.closeuser();
-		}
-		try {
-			chat.broadcastmessage("quit*/" + chat.getUserName() + "/" + chat.getListeningport());
-		} catch (NullPointerException e1) {
-			frame.dispose();
-		}
-	}
-	
+			//cardLayout.show(contentPane, "login");
+			JOptionPane.showMessageDialog(null,"Warning : Please select availible username!");
+			frame.setTitle("Tentative d'inscription échoué ");
+			//chat = null ;
+			//chat.closeuser();			
 
-	
-	
-	
-	
-	
+		}else {
+			JOptionPane.showMessageDialog(null,"Warning : Please select a availible port!");
+			frame.setTitle("Tentative d'inscription échoué ");
+			//chat.closeuser();
+		}
+		
+		//chat.broadcastmessage("quit*/" + chat.getUserName() + "/" + chat.getListeningport());
+		
+	}
+
+
 	public static void freshlist() {
 		//defaultListModel.clear();
 		

@@ -15,16 +15,16 @@ public class User {
 	private boolean connected;
 	private String pseudo; 
 	private InetAddress addressUser;
-
+	private String mdp ;
+	
 	private int portServerUser;
 	private ArrayList<User> users;
 	
-	
-
 	private Server server;
 	private Client client;
 	private List_users usersList ;
     private BroadCastClient broadCast ;
+    
     
 	public User (String pseudo,InetAddress address, int portServer)  {
 		this.connected = true;
@@ -62,20 +62,19 @@ public class User {
 	public boolean get_StatusConnec() {
 		return this.connected;
 	}
-
 	
 	
 	public Client get_Client() {
 		return this.client;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	public String get_Mdp() {
+		return this.mdp;
+	}
+	public void set_Mdp(String c) {
+		this.mdp=c;
+	}
+
 	
 	//Connecte avec un autre user
 	public void connecter(int numPort) throws Exception {
@@ -93,14 +92,7 @@ public class User {
 	public void sendMessage(String message) {
 		this.client.sendMessage(message);
 	}
-	
-	
-	
 
-
-
-
-	
 	//Shut down the system
 	public void disconnect() throws Exception {
 
@@ -110,6 +102,9 @@ public class User {
 		this.connected=false ; //A déplacer après le BC
 	}
 
+	public void maj_pseudo(String new_pseudo) {
+		this.pseudo=new_pseudo ;
+	}
 
 
 }
