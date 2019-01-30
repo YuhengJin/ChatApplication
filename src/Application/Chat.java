@@ -228,6 +228,9 @@ public class Chat {
 										}Graphique.freshlist();
 									}
 								}
+								else if (offlineusername.equals(username)) {
+									closechat() ;
+								}
 								
 							}
 
@@ -550,6 +553,7 @@ public class Chat {
 			this.ds.disconnect();
 			this.ds.close();
 		}
+		System.out.println("[Closechat de "+username+"]");
 		//ds=null; 
 		//ds = new DatagramSocket (99999) ;
 		for(int c=0; c<100000000;c++) {}

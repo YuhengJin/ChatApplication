@@ -273,8 +273,7 @@ public class Graphique extends JFrame{
 			}
 		});
 						
-			
-		
+
 		//No visibal the passeword
 		textField_pass = new JPasswordField();
 		textField_pass.setBounds(396, 192, 160, 34);
@@ -572,7 +571,8 @@ public class Graphique extends JFrame{
 
 				chat.broadcastmessage("quit*/" + chat.getUserName() + "/" + chat.getListeningport());
 				for (int j=0;j<100000000;j++) {}
-				
+				//chat.closechat();
+
 				cardLayout.show(contentPane, "login");
 
 
@@ -693,6 +693,7 @@ public class Graphique extends JFrame{
 					for (int i=0;i<10000000;i++) {}
 					if (chat.get_notmodif()==0) {
 						pseudo = name2 ;
+						jtfPseudo.setText(pseudo);
 						setTitle("User ["+pseudo+"] ");
 						cardLayout.show(contentPane, "chat");
 					}
@@ -709,7 +710,7 @@ public class Graphique extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//setTitle("User ["+pseudo+"] ");
-				cardLayout.show(contentPane, "login");
+				cardLayout.show(contentPane, "chat");
 			}
 		});
 		
